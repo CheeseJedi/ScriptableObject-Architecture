@@ -35,6 +35,7 @@ namespace ScriptableObjectArchitecture.Editor
         // Property Names
         private const string LIST_PROPERTY_NAME = "_list";
         private const string DESCRIPTION_PROPERTY_NAME = "DeveloperDescription";
+        private const string COLLECTIONSORTED_LABEL = "[This collection is automatically re-sorted]";
 
         private void OnEnable()
         {
@@ -57,9 +58,14 @@ namespace ScriptableObjectArchitecture.Editor
         {
             EditorGUI.BeginChangeCheck();
 
-            _reorderableList.DoLayoutList();
-
             EditorGUILayout.PropertyField(DeveloperDescriptionProperty);
+
+            if (Target.IsAutoSorted)
+            {
+                EditorGUILayout.LabelField(COLLECTIONSORTED_LABEL);
+            }
+
+            _reorderableList.DoLayoutList();
 
             if (EditorGUI.EndChangeCheck())
             {
