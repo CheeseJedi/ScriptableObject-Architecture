@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ScriptableObjectArchitecture
@@ -20,7 +21,7 @@ namespace ScriptableObjectArchitecture
         }
 
         [SerializeField]
-        private List<T> _list = new List<T>();
+        protected List<T> _list = new List<T>();
 
         public override IList List
         {
@@ -40,12 +41,20 @@ namespace ScriptableObjectArchitecture
         public void Add(T obj)
         {
             if (!_list.Contains(obj))
+            {
                 _list.Add(obj);
+                if (IsAutoSorted)
+                    Sort();
+            }
         }
         public void Remove(T obj)
         {
             if (_list.Contains(obj))
+            {
                 _list.Remove(obj);
+                if (IsAutoSorted)
+                    Sort();
+            }
         }
         public void Clear()
         {
@@ -66,6 +75,34 @@ namespace ScriptableObjectArchitecture
         public void Insert(int index, T value)
         {
             _list.Insert(index, value);
+        }
+        /// <summary>
+        /// Sorts a Collection by the specified function (lambda expression).
+        /// </summary>
+        /// <typeparam name = "TKey"></typeparam>
+        /// <param name = "sorter">The lambda expression to specify how to sort.</param>
+        /// <param name = "reverse">Whether the sort is in reverse.</param>
+        public void Sort<TKey>(Func<T, TKey> sorter, bool reverse = false)
+        {
+            if (reverse)
+            {
+                _list = _list.OrderByDescending(sorter).ToList();
+                return;
+            }
+            _list = _list.OrderBy(sorter).ToList();
+        }
+        /// <summary>
+        /// Gets the next element including wrapping/cycling back to
+        /// element zero if at the end of the list.
+        /// </summary>
+        /// <param name="element">The current element.</param>
+        /// <param name="reverse">Whether the direction is reversed.</param>
+        /// <returns>The next element in the list.</returns>
+        public T GetNextInCycle(T element, bool reverse = false)
+        {
+            int currentIndex = _list.IndexOf(element);
+            int nextIndex = (reverse ? _list.Count + currentIndex - 1 : currentIndex + 1) % _list.Count;
+            return _list[nextIndex];
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
