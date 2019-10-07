@@ -12,6 +12,7 @@ namespace ScriptableObjectArchitecture.Editor
         protected bool IsClamped { get { return Target.IsClamped; } }
 
         private SerializedProperty _valueProperty;
+        private SerializedProperty _defaultValueProperty;
         private SerializedProperty _developerDescription;
         private SerializedProperty _readOnly;
         private SerializedProperty _raiseWarning;
@@ -21,11 +22,12 @@ namespace ScriptableObjectArchitecture.Editor
         private AnimBool _raiseWarningAnimation;
         private AnimBool _isClampedVariableAnimation;
 
-        private const string READONLY_TOOLTIP = "Should this value be changable during runtime? Will still be editable in the inspector regardless";
+        private const string READONLY_TOOLTIP = "Should this value be changeable during runtime? Will still be editable in the inspector regardless";
 
         protected virtual void OnEnable()
         {
             _valueProperty = serializedObject.FindProperty("_value");
+            _defaultValueProperty = serializedObject.FindProperty("_defaultValue");
             _developerDescription = serializedObject.FindProperty("DeveloperDescription");
             _readOnly = serializedObject.FindProperty("_readOnly");
             _raiseWarning = serializedObject.FindProperty("_raiseWarning");
@@ -44,9 +46,12 @@ namespace ScriptableObjectArchitecture.Editor
             serializedObject.Update();
 
             DrawValue();
+            DrawDefaultValue();
             DrawClampedFields();
             DrawReadonlyField();
             DrawDeveloperDescription();
+            GUILayout.Space(10);
+            DrawResetValueButton();
         }
         protected virtual void DrawValue()
         {
@@ -63,6 +68,11 @@ namespace ScriptableObjectArchitecture.Editor
                     Target.Raise();
                 }
             }
+        }
+        protected virtual void DrawDefaultValue()
+        {
+            string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
+            GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Default Value"), _defaultValueProperty, new GUIContent(content, content));
         }
         protected void DrawClampedFields()
         {
@@ -106,6 +116,13 @@ namespace ScriptableObjectArchitecture.Editor
         protected void DrawDeveloperDescription()
         {
             EditorGUILayout.PropertyField(_developerDescription);
+        }
+        protected void DrawResetValueButton()
+        {
+            if (GUILayout.Button("Reset To Default Value"))
+            {
+                Target.ResetToDefaultValue();
+            }
         }
     }
 }
