@@ -9,6 +9,7 @@ namespace ScriptableObjectArchitecture
         public abstract bool ReadOnly { get; }
         public abstract System.Type Type { get; }
         public abstract object BaseValue { get; set; }
+        public abstract void ResetToDefaultValue();
     }
     public abstract class BaseVariable<T> : BaseVariable
     {
@@ -73,6 +74,8 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         protected T _value = default(T);
         [SerializeField]
+        protected T _defaultValue = default(T);
+        [SerializeField]
         private bool _readOnly = false;
         [SerializeField]
         private bool _raiseWarning = true;
@@ -110,6 +113,13 @@ namespace ScriptableObjectArchitecture
             }
 
             return value.Value;
+        }
+        /// <summary>
+        /// Resets the variable's value to it's configured default value.
+        /// </summary>
+        public override void ResetToDefaultValue()
+        {
+            Value = _defaultValue;
         }
         protected virtual T ClampValue(T value)
         {
