@@ -8,5 +8,6 @@ namespace ScriptableObjectArchitecture
 	    order = 120)]
 	public class ColorVariable : BaseVariable<Color>
 	{
-	}
+        public static ColorVariable CreateAsset() => EditorAssistantUtility.CreateAsset<ColorVariable>();
+    }
 }

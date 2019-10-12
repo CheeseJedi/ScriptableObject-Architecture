@@ -118,7 +118,11 @@ namespace ScriptableObjectArchitecture
         }
         private bool DrawCreateAssetButton(Rect position, EditorAssistantAttribute attrib)
         {
-            return (GUI.Button(position, string.Format(CREATE_BUTTON_LABEL, attrib.Type), EditorStyles.miniButton));
+            MethodInfo createAssetMethod = attrib.Type.GetMethod("CreateAsset", BindingFlags.Public | BindingFlags.Static);
+            EditorGUI.BeginDisabledGroup(createAssetMethod == null);
+            bool result = (GUI.Button(position, string.Format(CREATE_BUTTON_LABEL, attrib.Type), EditorStyles.miniButton));
+            EditorGUI.EndDisabledGroup();
+            return result;
         }
         private void DrawSubInspector(Rect position, SerializedProperty property) //, EditorAssistantAttribute attrib)
         {
@@ -143,11 +147,11 @@ namespace ScriptableObjectArchitecture
         }
         private void CreateNewAsset(SerializedProperty property, EditorAssistantAttribute attrib)
         {
-            MethodInfo method = attrib.Type.GetMethod("CreateAsset", BindingFlags.Public | BindingFlags.Static);
-            if (method == null) Debug.LogWarning("EditorAssistantAttributeDrawer: Creating new asset failed - unable to find a public CreateAsset() method for the specified type.");
+            MethodInfo createAssetMethod = attrib.Type.GetMethod("CreateAsset", BindingFlags.Public | BindingFlags.Static);
+            if (createAssetMethod == null) Debug.LogWarning("EditorAssistantAttributeDrawer: Creating new asset failed - unable to find a public CreateAsset() method for the specified type.");
             else
             {
-                ScriptableObject newObj = (ScriptableObject)method.Invoke(attrib.Type, null);
+                ScriptableObject newObj = (ScriptableObject)createAssetMethod.Invoke(attrib.Type, null);
                 if (newObj == null) Debug.LogError("EditorAssistantAttributeDrawer: Creating new asset failed - returned object was null.");
                 else
                 {

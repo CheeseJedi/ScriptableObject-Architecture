@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 9)]
     public class LongVariable : BaseVariable<long>
     {
+        public static LongVariable CreateAsset() => EditorAssistantUtility.CreateAsset<LongVariable>();
         public override bool Clampable { get { return true; } }
         protected override long ClampValue(long value)
         {

@@ -8,5 +8,6 @@ namespace ScriptableObjectArchitecture
 	    order = 120)]
 	public class AnimationCurveVariable : BaseVariable<AnimationCurve>
 	{
-	}
+        public static AnimationCurveVariable CreateAsset() => EditorAssistantUtility.CreateAsset<AnimationCurveVariable>();
+    }
 }

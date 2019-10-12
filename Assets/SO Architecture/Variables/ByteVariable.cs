@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 6)]
     public class ByteVariable : BaseVariable<byte>
     {
+        public static ByteVariable CreateAsset() => EditorAssistantUtility.CreateAsset<ByteVariable>();
         public override bool Clampable { get { return true; } }
         protected override byte ClampValue(byte value)
         {

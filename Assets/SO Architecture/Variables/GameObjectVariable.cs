@@ -8,5 +8,6 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 0)]
     public sealed class GameObjectVariable : BaseVariable<GameObject>
     {
-    } 
+        public static GameObjectVariable CreateAsset() => EditorAssistantUtility.CreateAsset<GameObjectVariable>();
+    }
 }

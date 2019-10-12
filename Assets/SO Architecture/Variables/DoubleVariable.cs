@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 8)]
     public class DoubleVariable : BaseVariable<double>
     {
+        public static DoubleVariable CreateAsset() => EditorAssistantUtility.CreateAsset<DoubleVariable>();
         public override bool Clampable { get { return true; } }
         protected override double ClampValue(double value)
         {

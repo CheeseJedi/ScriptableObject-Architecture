@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 3)]
     public class FloatVariable : BaseVariable<float>
     {
+        public static FloatVariable CreateAsset() => EditorAssistantUtility.CreateAsset<FloatVariable>();
         public override bool Clampable { get { return true; } }
         protected override float ClampValue(float value)
         {

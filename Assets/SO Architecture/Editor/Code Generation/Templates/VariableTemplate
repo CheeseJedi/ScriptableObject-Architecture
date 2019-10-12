@@ -8,5 +8,6 @@ namespace ScriptableObjectArchitecture
 	    order = $ORDER$)]
 	public class $TYPE_NAME$Variable : BaseVariable<$TYPE$>
 	{
+		public static $TYPE_NAME$Variable CreateAsset() => EditorAssistantUtility.CreateAsset<$TYPE_NAME$Variable>();
 	}
 }

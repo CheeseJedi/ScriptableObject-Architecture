@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 14)]
     public class ShortVariable : BaseVariable<short>
     {
+        public static ShortVariable CreateAsset() => EditorAssistantUtility.CreateAsset<ShortVariable>();
         public override bool Clampable { get { return true; } }
         protected override short ClampValue(short value)
         {

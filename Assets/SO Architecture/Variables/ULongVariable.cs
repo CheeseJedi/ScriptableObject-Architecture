@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 17)]
     public class ULongVariable : BaseVariable<ulong>
     {
+        public static ULongVariable CreateAsset() => EditorAssistantUtility.CreateAsset<ULongVariable>();
         public override bool Clampable { get { return true; } }
         protected override ulong ClampValue(ulong value)
         {

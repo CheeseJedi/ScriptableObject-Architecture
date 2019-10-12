@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 15)]
     public class SByteVariable : BaseVariable<sbyte>
     {
+        public static SByteVariable CreateAsset() => EditorAssistantUtility.CreateAsset<SByteVariable>();
         public override bool Clampable { get { return true; } }
         protected override sbyte ClampValue(sbyte value)
         {

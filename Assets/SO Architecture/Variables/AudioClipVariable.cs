@@ -8,5 +8,6 @@ namespace ScriptableObjectArchitecture
 	    order = 120)]
 	public class AudioClipVariable : BaseVariable<AudioClip>
 	{
-	}
+        public static AudioClipVariable CreateAsset() => EditorAssistantUtility.CreateAsset<AudioClipVariable>();
+    }
 }

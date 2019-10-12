@@ -8,5 +8,6 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 11)]
     public sealed class Vector3Variable : BaseVariable<Vector3>
     {
-    } 
+        public static Vector3Variable CreateAsset() => EditorAssistantUtility.CreateAsset<Vector3Variable>();
+    }
 }

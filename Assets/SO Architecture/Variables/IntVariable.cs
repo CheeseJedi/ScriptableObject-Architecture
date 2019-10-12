@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_COLLECTIONS + 4)]
     public class IntVariable : BaseVariable<int>
     {
+        public static IntVariable CreateAsset() => EditorAssistantUtility.CreateAsset<IntVariable>();
         public override bool Clampable { get { return true; } }
         protected override int ClampValue(int value)
         {

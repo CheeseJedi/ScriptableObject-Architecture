@@ -8,5 +8,6 @@ namespace ScriptableObjectArchitecture
 	    order = 120)]
 	public class Color32Variable : BaseVariable<Color32>
 	{
-	}
+        public static Color32Variable CreateAsset() => EditorAssistantUtility.CreateAsset<Color32Variable>();
+    }
 }

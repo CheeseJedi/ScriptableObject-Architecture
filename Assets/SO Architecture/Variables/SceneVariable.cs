@@ -13,6 +13,7 @@ namespace ScriptableObjectArchitecture
         order = 120)]
     public sealed class SceneVariable : BaseVariable<SceneInfo>
     {
+        public static SceneVariable CreateAsset() => EditorAssistantUtility.CreateAsset<SceneVariable>();
         /// <summary>
         /// Returns the <see cref="SceneInfo"/> of this instance.
         /// </summary>
