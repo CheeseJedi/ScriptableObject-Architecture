@@ -9,10 +9,10 @@
 
         public const string VARIABLE_SUBMENU = "Variables/";
         public const string COLLECTION_SUBMENU = "Collections/";
-        public const string GAME_EVENT = "Game Events/";
+        public const string GAME_EVENTS_SUBMENU = "Game Events/";
         public const string SYSTEMS_SUBMENU = "Systems/";
 
-        public const string ADVANCED_GAME_EVENT = GAME_EVENT + "Advanced/";
+        public const string ADVANCED_GAME_EVENT = GAME_EVENTS_SUBMENU + "Advanced/";
         public const string ADVANCED_VARIABLE_SUBMENU = VARIABLE_SUBMENU + "Advanced/";
         public const string ADVANCED_VARIABLE_COLLECTION = COLLECTION_SUBMENU + "Advanced/";
 
