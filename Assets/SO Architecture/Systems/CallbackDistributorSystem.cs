@@ -4,78 +4,79 @@ using UnityEngine;
 namespace ScriptableObjectArchitecture
 {
     [CreateAssetMenu(
-        fileName = "CallbackDistributor.asset",
+        fileName = "CallbackDistributorSystem.asset",
         menuName = SOArchitecture_Utility.SYSTEMS_SUBMENU + "Callback Distributor",
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_SYSTEMS + 0)]
-    public class CallbackDistributor : SOArchitectureBaseObject
+    public class CallbackDistributorSystem : ScriptableObjectSystem, ICallbackReceiver, ICallbackTransmitter
     {
         [Header("Hosted Systems")]
         [Tooltip("Hosted Systems added to this list will receive callbacks.")]
+        [EditorAssistant(typeof(ScriptableObjectSystem), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: false)]
         public List<ScriptableObjectSystem> HostedSystems = default;
-        [Header("Reset Variables On Awake")]
-        [Tooltip("Variables added to this list will be reset to their configured default value.")]
-        public List<BaseVariable> VariablesToReset = default;
         [Header("Back Burner")]
-        [Tooltip("ScriptableObjects added to this list will be 'woken up' and 'kept warm' as long as the CallbackDistributor is referenced in the scene.")]
+        [Tooltip("ScriptableObjects added to this list will be 'woken up' and 'kept warm' as long as the CallbackDistributorSystem is referenced in the scene.")]
         public List<ScriptableObject> BackBurner = default;
-        public CallbackDistributorHost HostMonoBehaviour { get; set; }
-        public void Start()
+
+        public static CallbackDistributorSystem CreateAsset() =>
+            EditorAssistantUtility.CreateAsset<CallbackDistributorSystem>();
+        public override UpdateType CallbackOn => UpdateType.OnAwake | UpdateType.Start |
+            UpdateType.FixedUpdate | UpdateType.Update | UpdateType.LateUpdate |
+            UpdateType.OnGUI | UpdateType.OnQuit;
+        public CallbackTransmitterComponent HostMonoBehaviour { get; set; }
+        public override void Start()
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
                 HostedSystems[i].CallbackDistributor = this;
-
-                if ((HostedSystems[i].RequiresUpdatesOn & UpdateType.Start) == UpdateType.Start)
+                if ((HostedSystems[i].CallbackOn & UpdateType.Start) == UpdateType.Start)
                     HostedSystems[i].Start();
             }
         }
-        public void Update()
+        public override void Update()
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].RequiresUpdatesOn & UpdateType.Update) == UpdateType.Update)
+                if ((HostedSystems[i].CallbackOn & UpdateType.Update) == UpdateType.Update)
                     HostedSystems[i].Update();
             }
         }
-        public void FixedUpdate()
+        public override void FixedUpdate()
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].RequiresUpdatesOn & UpdateType.FixedUpdate) == UpdateType.FixedUpdate)
+                if ((HostedSystems[i].CallbackOn & UpdateType.FixedUpdate) == UpdateType.FixedUpdate)
                     HostedSystems[i].FixedUpdate();
             }
         }
-        public void LateUpdate()
+        public override void LateUpdate()
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].RequiresUpdatesOn & UpdateType.LateUpdate) == UpdateType.LateUpdate)
+                if ((HostedSystems[i].CallbackOn & UpdateType.LateUpdate) == UpdateType.LateUpdate)
                     HostedSystems[i].LateUpdate();
             }
         }
-        public void OnGUI()
+        public override void OnGUI()
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].RequiresUpdatesOn & UpdateType.OnGUI) == UpdateType.OnGUI)
+                if ((HostedSystems[i].CallbackOn & UpdateType.OnGUI) == UpdateType.OnGUI)
                     HostedSystems[i].OnGUI();
             }
         }
-        public void OnAwake()
+        public override void OnAwake()
         {
-            // Reset any variables in the reset list.
-            ResetVariables();
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].RequiresUpdatesOn & UpdateType.OnAwake) == UpdateType.OnAwake)
+                if ((HostedSystems[i].CallbackOn & UpdateType.OnAwake) == UpdateType.OnAwake)
                     HostedSystems[i].OnAwake();
             }
         }
-        public void OnQuit()
+        public override void OnQuit()
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].RequiresUpdatesOn & UpdateType.OnQuit) == UpdateType.OnQuit)
+                if ((HostedSystems[i].CallbackOn & UpdateType.OnQuit) == UpdateType.OnQuit)
                     HostedSystems[i].OnQuit();
             }
         }
@@ -89,14 +90,5 @@ namespace ScriptableObjectArchitecture
             Application.Quit();
             #endif
         }
-        public void ResetVariables()
-        {
-            for (int i = 0; i < VariablesToReset.Count; i++)
-            {
-                VariablesToReset[i].ResetToDefaultValue();
-            }
-        }
     }
-    [System.Flags]
-    public enum UpdateType { None = 0, Start = 1, Update = 2, FixedUpdate = 4, LateUpdate = 8, OnGUI = 16, OnAwake = 32, OnQuit = 64 }
 }

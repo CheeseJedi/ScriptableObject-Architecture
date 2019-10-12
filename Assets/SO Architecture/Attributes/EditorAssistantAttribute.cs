@@ -9,10 +9,6 @@ public class EditorAssistantAttribute : PropertyAttribute
     public bool MissingObjectWarning { get; private set; } = false;
     public bool ShowCreateAssetButton { get; private set; } = false;
     public bool HasType => Type != null;
-    public EditorAssistantAttribute(bool displayInspector = true)
-    {
-        DisplayInspector = displayInspector;
-    }
     public EditorAssistantAttribute(Type type, bool missingObjectWarning = false, bool showCreateAssetButton = false, bool displayInspector = true)
     {
         DisplayInspector = displayInspector;
