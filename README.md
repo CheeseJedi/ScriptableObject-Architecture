@@ -3,10 +3,6 @@
 A fork of https://github.com/DanielEverland/ScriptableObject-Architecture adding ScriptableObjectSystems, the CallbackDistributor, and the EditorAssistantAttribute and it's property drawer. Set up for PackageManager delivery directly from GitHub.
 
 
-Makes using Scriptable Objects as a fundamental part of your architecture in Unity super easy
-
-Based on Ryan Hipple's 2017 Unite talk https://www.youtube.com/watch?v=raQ3iHhE_Kk
-
 ## Package Manager Installation
 
 Simply modify your `manifest.json` file found at `/PROJECTNAME/Packages/manifest.json` by including the following line
@@ -20,6 +16,11 @@ Simply modify your `manifest.json` file found at `/PROJECTNAME/Packages/manifest
 	}
 }
 ```
+
+
+Makes using Scriptable Objects as a fundamental part of your architecture in Unity super easy
+
+Based on Ryan Hipple's 2017 Unite talk https://www.youtube.com/watch?v=raQ3iHhE_Kk
 
 # Features
 - Automatic Script Generation
