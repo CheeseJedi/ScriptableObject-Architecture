@@ -3,7 +3,7 @@
 namespace ScriptableObjectArchitecture
 {
     [DefaultExecutionOrder(-80)]
-    public class CallbackTransmitterComponent : SOArchitectureBaseMonobehaviour
+    public class CallbackTransmitterComponent : SOArchitectureBaseMonobehaviour, ICallbackTransmitter
     {
         [Header("Callback Receiver")]
         [Tooltip("The system that requires callbacks - typically a CallbackDistributorSystem asset.")]
@@ -12,6 +12,9 @@ namespace ScriptableObjectArchitecture
         [Header("Scene Load Survivability")]
         [Tooltip("Whether this component sets the DontDestroyOnLoad flag on it's parent GameObject.")]
         public bool SurviveSceneLoad = true;
+
+        public CallbackTransmitterComponent HostMonoBehaviour { get => this; set => throw new System.NotImplementedException(); }
+
         private void Awake()
         {
             if (CallbackReceiver == null)

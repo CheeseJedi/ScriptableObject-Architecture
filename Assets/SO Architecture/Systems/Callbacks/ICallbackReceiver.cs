@@ -6,7 +6,7 @@ namespace ScriptableObjectArchitecture
 {
     public interface ICallbackReceiver
     {
-        UpdateType CallbackOn { get; }
+        CallbackType CallbackOn { get; }
         CallbackDistributorSystem CallbackDistributor { get; }
         void Start();
         void Update();

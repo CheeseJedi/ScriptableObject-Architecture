@@ -5,9 +5,9 @@ namespace ScriptableObjectArchitecture
     public abstract class ScriptableObjectSystem : SOArchitectureBaseObject, ICallbackReceiver
     {
         public CallbackDistributorSystem CallbackDistributor { get; set; }
-        public virtual UpdateType CallbackOn => UpdateType.None;
+        public virtual CallbackType CallbackOn => CallbackType.None;
 
-        private const string k_NoOverrideMessage = " called, but not overridden! Check the RequriesUpdateOn setting for receiving system.";
+        private const string k_NoOverrideMessage = " called, but not overridden! Check the CallbackOn setting for receiving system.";
         public virtual void Start() => Debug.LogWarning($"{name}(ScriptableObjectSystem).Start:" + k_NoOverrideMessage);
         public virtual void Update() => Debug.LogWarning($"{name}(ScriptableObjectSystem).Update:" + k_NoOverrideMessage);
         public virtual void FixedUpdate() => Debug.LogWarning($"{name}(ScriptableObjectSystem).FixedUpdate:" + k_NoOverrideMessage);

@@ -50,10 +50,20 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUILayout.PropertyField(CallbackOnProperty);
             EditorGUILayout.LabelField(VARIABLES_TO_RESET_HEADER, EditorStyles.boldLabel);
             _variablesToResetList.DoLayoutList();
+            bool disableButton = true;
+            if (Target != null && Target.VariablesToReset != null)
+            {
+                if (Target.VariablesToReset.Count > 0)
+                {
+                    disableButton = false;
+                }
+            }
+            EditorGUI.BeginDisabledGroup(disabled: disableButton);
             if (GUILayout.Button("Apply Default Values"))
             {
                 Target.ResetVariables();
             }
+            EditorGUI.EndDisabledGroup();
             GUILayout.Space(5);
             if (EditorGUI.EndChangeCheck())
             {

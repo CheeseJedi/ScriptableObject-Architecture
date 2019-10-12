@@ -7,28 +7,33 @@ namespace ScriptableObjectArchitecture
         fileName = "CallbackDistributorSystem.asset",
         menuName = SOArchitecture_Utility.SYSTEMS_SUBMENU + "Callback Distributor",
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_SYSTEMS + 0)]
-    public class CallbackDistributorSystem : ScriptableObjectSystem, ICallbackReceiver, ICallbackTransmitter
+    public class CallbackDistributorSystem : ScriptableObjectSystem, ICallbackTransmitter
     {
         [Header("Hosted Systems")]
         [Tooltip("Hosted Systems added to this list will receive callbacks.")]
-        [EditorAssistant(typeof(ScriptableObjectSystem), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: false)]
+        //[EditorAssistant(typeof(ScriptableObjectSystem), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: false)]
         public List<ScriptableObjectSystem> HostedSystems = default;
         [Header("Back Burner")]
-        [Tooltip("ScriptableObjects added to this list will be 'woken up' and 'kept warm' as long as the CallbackDistributorSystem is referenced in the scene.")]
+        [Tooltip("ScriptableObjects added to this list will be 'kept alive' (not unloaded) as long as the CallbackDistributorSystem is referenced in the scene.")]
         public List<ScriptableObject> BackBurner = default;
 
         public static CallbackDistributorSystem CreateAsset() =>
             EditorAssistantUtility.CreateAsset<CallbackDistributorSystem>();
-        public override UpdateType CallbackOn => UpdateType.OnAwake | UpdateType.Start |
-            UpdateType.FixedUpdate | UpdateType.Update | UpdateType.LateUpdate |
-            UpdateType.OnGUI | UpdateType.OnQuit;
+        public override CallbackType CallbackOn => CallbackType.Everything;
         public CallbackTransmitterComponent HostMonoBehaviour { get; set; }
+        private const string DEFAULT_DEVELOPER_DESCRIPTION = "This system re-distributes callbacks received from a "
+            + "CallbackTransmitterComponent in a scene to other ScritpableObjectSystems.";
+        private void Awake()
+        {
+            if (DeveloperDescription == BASE_DEFAULT_DEVELOPER_DESCRIPTION)
+                DeveloperDescription = new DeveloperDescription(DEFAULT_DEVELOPER_DESCRIPTION);
+        }
         public override void Start()
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
                 HostedSystems[i].CallbackDistributor = this;
-                if ((HostedSystems[i].CallbackOn & UpdateType.Start) == UpdateType.Start)
+                if ((HostedSystems[i].CallbackOn & CallbackType.Start) == CallbackType.Start)
                     HostedSystems[i].Start();
             }
         }
@@ -36,7 +41,7 @@ namespace ScriptableObjectArchitecture
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & UpdateType.Update) == UpdateType.Update)
+                if ((HostedSystems[i].CallbackOn & CallbackType.Update) == CallbackType.Update)
                     HostedSystems[i].Update();
             }
         }
@@ -44,7 +49,7 @@ namespace ScriptableObjectArchitecture
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & UpdateType.FixedUpdate) == UpdateType.FixedUpdate)
+                if ((HostedSystems[i].CallbackOn & CallbackType.FixedUpdate) == CallbackType.FixedUpdate)
                     HostedSystems[i].FixedUpdate();
             }
         }
@@ -52,7 +57,7 @@ namespace ScriptableObjectArchitecture
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & UpdateType.LateUpdate) == UpdateType.LateUpdate)
+                if ((HostedSystems[i].CallbackOn & CallbackType.LateUpdate) == CallbackType.LateUpdate)
                     HostedSystems[i].LateUpdate();
             }
         }
@@ -60,7 +65,7 @@ namespace ScriptableObjectArchitecture
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & UpdateType.OnGUI) == UpdateType.OnGUI)
+                if ((HostedSystems[i].CallbackOn & CallbackType.OnGUI) == CallbackType.OnGUI)
                     HostedSystems[i].OnGUI();
             }
         }
@@ -68,7 +73,7 @@ namespace ScriptableObjectArchitecture
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & UpdateType.OnAwake) == UpdateType.OnAwake)
+                if ((HostedSystems[i].CallbackOn & CallbackType.OnAwake) == CallbackType.OnAwake)
                     HostedSystems[i].OnAwake();
             }
         }
@@ -76,7 +81,7 @@ namespace ScriptableObjectArchitecture
         {
             for (int i = 0; i < HostedSystems.Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & UpdateType.OnQuit) == UpdateType.OnQuit)
+                if ((HostedSystems[i].CallbackOn & CallbackType.OnQuit) == CallbackType.OnQuit)
                     HostedSystems[i].OnQuit();
             }
         }
