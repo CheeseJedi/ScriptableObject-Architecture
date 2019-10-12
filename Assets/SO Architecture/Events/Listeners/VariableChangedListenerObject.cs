@@ -11,6 +11,7 @@ namespace ScriptableObjectArchitecture
         [Header("Monitored Variable")]
         [Tooltip("The variable to monitor for changes.")]
         [SerializeField]
+        [EditorAssistant(typeof(BaseVariable), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: true)]
         protected TVar Variable = default;
         [SerializeField, HideInInspector]
         private TVar _previouslyRegisteredEvent = default;

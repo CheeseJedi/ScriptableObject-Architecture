@@ -8,6 +8,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField, Tooltip("When this ScriptableObjectSystem requires updates - multi-select possible.")]
         public UpdateType RequiresUpdatesOn = UpdateType.None;
         [System.NonSerialized]
+        [EditorAssistant(typeof(CallbackDistributor), missingObjectWarning: true, showCreateAssetButton: true, displayInspector: true)]
         public CallbackDistributor CallbackDistributor;
         private const string k_NoOverrideMessage = " called, but not overridden! Check the RequriesUpdateOn setting for Hosted SO Systems.";
         public virtual void Start() => Debug.LogWarning($"{name}(ScriptableObjectSystem).Start:" + k_NoOverrideMessage);
