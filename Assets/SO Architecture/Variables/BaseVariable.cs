@@ -85,7 +85,12 @@ namespace ScriptableObjectArchitecture
         protected T _minClampedValue = default(T);
         [SerializeField]
         protected T _maxClampedValue = default(T);
-        
+        private const string DEFAULT_DEVELOPER_DESCRIPTION = "Default description for a Variable. Click to edit.";
+        private void Awake()
+        {
+            if (DeveloperDescription == BASE_DEFAULT_DEVELOPER_DESCRIPTION)
+                DeveloperDescription = new DeveloperDescription(DEFAULT_DEVELOPER_DESCRIPTION);
+        }
         public virtual T SetValue(T value)
         {
             if (_readOnly)
@@ -115,7 +120,7 @@ namespace ScriptableObjectArchitecture
             return value.Value;
         }
         /// <summary>
-        /// Resets the variable's value to it's configured default value.
+        /// Resets the variable's value to its configured default value.
         /// </summary>
         public override void ResetToDefaultValue()
         {

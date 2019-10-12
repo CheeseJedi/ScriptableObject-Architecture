@@ -44,13 +44,12 @@ namespace ScriptableObjectArchitecture.Editor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-
+            DrawDeveloperDescription();
+            GUILayout.Space(16);
             DrawValue();
             DrawDefaultValue();
             DrawClampedFields();
             DrawReadonlyField();
-            DrawDeveloperDescription();
-            GUILayout.Space(10);
             DrawResetValueButton();
         }
         protected virtual void DrawValue()

@@ -20,9 +20,9 @@ namespace ScriptableObjectArchitecture.Editor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-
-            DrawValue();
             DrawDeveloperDescription();
+            GUILayout.Space(16);
+            DrawValue();
         }
         protected override void DrawValue()
         {

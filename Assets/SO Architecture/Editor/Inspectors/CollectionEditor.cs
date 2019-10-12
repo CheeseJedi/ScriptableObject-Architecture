@@ -59,7 +59,7 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.PropertyField(DeveloperDescriptionProperty);
-
+            GUILayout.Space(16);
             if (Target.IsAutoSorted)
             {
                 EditorGUILayout.LabelField(COLLECTIONSORTED_LABEL);

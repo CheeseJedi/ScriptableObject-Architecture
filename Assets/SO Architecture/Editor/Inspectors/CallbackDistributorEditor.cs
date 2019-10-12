@@ -67,7 +67,7 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.PropertyField(DeveloperDescriptionProperty);
-            GUILayout.Space(5);
+            GUILayout.Space(16);
 
             EditorGUILayout.LabelField(HOSTED_SYSTEMS_HEADER, EditorStyles.boldLabel);
             _hostedSystemsList.DoLayoutList();

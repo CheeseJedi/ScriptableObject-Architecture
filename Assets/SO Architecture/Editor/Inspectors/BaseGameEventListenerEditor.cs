@@ -30,6 +30,8 @@ namespace ScriptableObjectArchitecture.Editor
         }
         public override void OnInspectorGUI()
         {
+            EditorGUILayout.PropertyField(DeveloperDescription);
+            GUILayout.Space(16);
             EditorGUILayout.ObjectField(_event, new GUIContent("Event", "Event which will trigger the response"));
             EditorGUILayout.PropertyField(_response, new GUIContent("Response"));
 
@@ -38,8 +40,6 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 DrawDebugging();
             }
-
-            EditorGUILayout.PropertyField(DeveloperDescription);
 
             serializedObject.ApplyModifiedProperties();
         }

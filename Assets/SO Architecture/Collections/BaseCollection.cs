@@ -27,7 +27,12 @@ namespace ScriptableObjectArchitecture
         /// classes that have implemented an overridden Sort method.
         /// </summary>
         public virtual bool IsAutoSorted => false;
-
+        private const string DEFAULT_DEVELOPER_DESCRIPTION = "Default description for a Collection. Click to edit.";
+        private void Awake()
+        {
+            if (DeveloperDescription == BASE_DEFAULT_DEVELOPER_DESCRIPTION)
+                DeveloperDescription = new DeveloperDescription(DEFAULT_DEVELOPER_DESCRIPTION);
+        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return List.GetEnumerator();

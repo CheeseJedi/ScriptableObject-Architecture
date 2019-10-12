@@ -8,7 +8,7 @@ namespace ScriptableObjectArchitecture
     /// </summary>
     public abstract class SOArchitectureBaseMonobehaviour : MonoBehaviour
     {
-        public const string BASE_DEFAULT_DEVELOPER_DESCRIPTION = "Default description for a class derived from SOArchitectureBaseMonoBehaviour.";
+        public const string BASE_DEFAULT_DEVELOPER_DESCRIPTION = "Default description for a class derived from SOArchitectureBaseMonoBehaviour. Click to edit.";
 #pragma warning disable 0414
         [SerializeField]
         private DeveloperDescription DeveloperDescription = new DeveloperDescription(BASE_DEFAULT_DEVELOPER_DESCRIPTION);
