@@ -1,9 +1,26 @@
 # ScriptableObject-Architecture
+
+A fork of https://github.com/DanielEverland/ScriptableObject-Architecture adding ScriptableObjectSystems, the CallbackDistributor, and the EditorAssistantAttribute and it's property drawer. Set up for PackageManager delivery directly from GitHub.
+
+
+## Package Manager Installation
+
+Simply modify your `manifest.json` file found at `/PROJECTNAME/Packages/manifest.json` by including the following line
+
+```
+{
+	"dependencies": {
+		...
+		"com.cheesejedi.scriptableobjectarchitecture": "https://github.com/CheeseJedi/ScriptableObject-Architecture.git#release/stable",
+		...
+	}
+}
+```
+
+
 Makes using Scriptable Objects as a fundamental part of your architecture in Unity super easy
 
 Based on Ryan Hipple's 2017 Unite talk https://www.youtube.com/watch?v=raQ3iHhE_Kk
-
-Now on the [Asset Store!](https://assetstore.unity.com/packages/tools/utilities/scriptableobject-architecture-131520)
 
 # Features
 - Automatic Script Generation
@@ -11,8 +28,10 @@ Now on the [Asset Store!](https://assetstore.unity.com/packages/tools/utilities/
 - Clamped Variables
 - Variable References
 - Typed Events
-- Runtime Sets
+- Collections (Runtime Sets)
 - Custom Icons
+- ScriptableObjectSystem with CallbackDistributor for a wide range of callbacks
+- EditorAssistant Attribute to assist in rapid 'wiring-up' in the editor
 
 Visual debugging of events
 
@@ -29,24 +48,3 @@ Custom icons
 Easy and automatic script generation
 
 ![](https://i.imgur.com/xm2gNmo.png)
-
-# Installation
-
-There are three ways you can install this package
-- [Unity Asset Store](https://assetstore.unity.com/packages/tools/utilities/scriptableobject-architecture-131520)
-- .unitypackage from [Releases](https://github.com/DanielEverland/ScriptableObject-Architecture/releases)
-- Unity package manager introduced in 2017.2
-
-## Package Manager Installation
-
-Simply modify your `manifest.json` file found at `/PROJECTNAME/Packages/manifest.json` by including the following line
-
-```
-{
-	"dependencies": {
-		...
-		"com.danieleverland.scriptableobjectarchitecture": "https://github.com/DanielEverland/ScriptableObject-Architecture.git#release/stable",
-		...
-	}
-}
-```

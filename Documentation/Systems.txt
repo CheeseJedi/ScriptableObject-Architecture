@@ -1,0 +1,53 @@
+## Introduction
+The ScriptableObjectSystem is a ScriptableObject derived class to further inherit from that allows for
+ScriptableObjects to receive callbacks from a MonoBehaviour (the CallbackDistributorHost component) in
+an active scene.
+
+Since the system's instance and data exists as an asset within the Unity project, modifying both it's
+configuration and and 'wiring it up' (referencing it from other assets or MonoBehaviours via drag and
+drop) in the editor is very simple and intuitive.
+
+## Script Reference
+A ScriptableObjectSystem can be hosted within a CallbackDistributor, setting it's UpdateType flags with
+each callback the hosted system wants callbacks for. This allows for processes typically handled by a
+MonoBehaviour component attached to a GameObject in a scene, to instead be stored as an asset - improving
+visibility across the project.
+
+A derived class can implement any of the following methods, which will be called if the
+ScriptableObjectSystem has set the appropriate flag in the RequiresUpdatesOn variable:
+
+	Start() - Called when the CallbackDistributor asset receives the Start() callback.
+
+	Update() - Called when the CallbackDistributor asset receives the Update() callback.
+
+	FixedUpdate() - Called when the CallbackDistributor asset receives the FixedUpdate() callback.
+
+	LateUpdate() - Called when the CallbackDistributor asset receives the LateUpdate() callback.
+
+	OnGUI() - Called when the CallbackDistributor asset receives the OnGUI() callback - useful for immediate
+		mode GUI functions, such as displaying debug information, from the ScriptableObjectSystem.
+
+	OnAwake() - Workaround for ScriptableObject.Awake not reliably being called and is called when the 
+		CallbackDistributor asset receives the OnAwake callback.
+
+	OnQuit() - Called when the CallbackDistributorHost (MonoBehaviour) component receives the 
+		OnApplicationQuit callback.
+
+The individual configuration for callbacks per ScriptableObjectSystem are handled by a flags enum allowing
+for callback of any combination of the options available.
+
+enum UpdateType
+{ None = 0, Start = 1, Update = 2, FixedUpdate = 4, LateUpdate = 8, OnGUI = 16, OnAwake = 32, OnQuit = 64 }
+
+UpdateType RequiresUpdatesOn
+The ScriptableObjectSystem controls which of these callbacks it wants with this variable, and is easily
+configured in the Unity editor on the ScriptableObjectSystem asset. 
+
+Adding a ScriptableObjectSystem to the CallbackDistributor asset (the hosted list) will mean that it's 
+RequiresUpdatesOn value is evaluated upon receipt of any callback by the CallbackDistributor. This allows 
+real-time changes to the callbacks of a ScriptableObjectSystem.
+
+Also to note is that the ScriptableObjectSystems are called in the order they appear in the list in the 
+inspector. This list is reorderable in the editor meaning it is possible to control the order any hosted
+systems get their callbacks.
+
