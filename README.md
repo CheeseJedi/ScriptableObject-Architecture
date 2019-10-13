@@ -11,7 +11,7 @@ Simply modify your `manifest.json` file found at `/PROJECTNAME/Packages/manifest
 {
 	"dependencies": {
 		...
-		"com.cheesejedi.scriptableobjectarchitecture": "https://github.com/CheeseJedi/ScriptableObject-Architecture.git",
+		"com.cheesejedi.scriptableobject-architecture": "https://github.com/CheeseJedi/ScriptableObject-Architecture.git",
 		...
 	}
 }
