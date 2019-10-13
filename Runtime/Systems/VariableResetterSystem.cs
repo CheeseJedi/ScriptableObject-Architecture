@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ScriptableObjectArchitecture
 {
     [CreateAssetMenu(
-        fileName = "VariableResetter.asset",
+        fileName = "VariableResetterSystem.asset",
         menuName = SOArchitecture_Utility.SYSTEMS_SUBMENU + "Variable Resetter",
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_SYSTEMS + 0)]
     public class VariableResetterSystem : ScriptableObjectSystem
