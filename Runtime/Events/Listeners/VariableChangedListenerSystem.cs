@@ -2,12 +2,12 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class VariableChangedListenerSystem<TVar, TEvent>
+    public abstract class VariableChangedListenerSystem<TVar> //, TEvent>
         : ScriptableObjectSystem, IGameEventListener
         where TVar : BaseVariable
-        where TEvent : GameEventBase
+        //where TEvent : GameEventBase
     {
-        protected ScriptableObject GameEvent => Variable as TEvent;
+        //protected ScriptableObject GameEvent => Variable as TEvent;
         [Header("Monitored Variable")]
         [Tooltip("The variable to monitor for changes.")]
         [SerializeField]

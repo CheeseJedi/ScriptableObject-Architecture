@@ -110,6 +110,10 @@ namespace ScriptableObjectArchitecture
         }
         public void RemoveAt(int index)
         {
+            if (index == _selectedItemIndex)
+            {
+                SelectedItemIndex--;
+            }
             _list.RemoveAt(index);
             Raise();
         }
@@ -126,12 +130,14 @@ namespace ScriptableObjectArchitecture
         /// <param name = "reverse">Whether the sort is in reverse.</param>
         public void Sort<TKey>(Func<T, TKey> sorter, bool reverse = false)
         {
+            T selected = SelectedItem;
             if (reverse)
             {
                 _list = _list.OrderByDescending(sorter).ToList();
                 return;
             }
             _list = _list.OrderBy(sorter).ToList();
+            _selectedItemIndex = _list.IndexOf(selected);
             Raise();
         }
         /// <summary>
