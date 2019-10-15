@@ -19,7 +19,6 @@ namespace ScriptableObjectArchitecture
                 _list[index] = value;
             }
         }
-
         [SerializeField]
         protected List<T> _list = new List<T>();
         public override IList List
@@ -29,7 +28,6 @@ namespace ScriptableObjectArchitecture
                 return _list;
             }
         }
-
         [SerializeField]
         protected int _selectedItemIndex;
         public int SelectedItemIndex
@@ -45,6 +43,7 @@ namespace ScriptableObjectArchitecture
                         return;
                     }
                     _selectedItemIndex = value;
+                    Raise();
                 }
             }
         }
@@ -61,10 +60,10 @@ namespace ScriptableObjectArchitecture
                         return;
                     }
                     _selectedItemIndex = _list.IndexOf(value);
+                    Raise();
                 }
             }
         }
-
         public override Type Type
         {
             get
@@ -72,14 +71,16 @@ namespace ScriptableObjectArchitecture
                 return typeof(T);
             }
         }
-
         public void Add(T obj)
         {
             if (!_list.Contains(obj))
             {
                 _list.Add(obj);
                 if (IsAutoSorted)
+                {
                     Sort();
+                }
+                Raise();
             }
         }
         public void Remove(T obj)
@@ -88,12 +89,16 @@ namespace ScriptableObjectArchitecture
             {
                 _list.Remove(obj);
                 if (IsAutoSorted)
+                {
                     Sort();
+                }
+                Raise();
             }
         }
         public void Clear()
         {
             _list.Clear();
+            Raise();
         }
         public bool Contains(T value)
         {
@@ -106,10 +111,12 @@ namespace ScriptableObjectArchitecture
         public void RemoveAt(int index)
         {
             _list.RemoveAt(index);
+            Raise();
         }
         public void Insert(int index, T value)
         {
             _list.Insert(index, value);
+            Raise();
         }
         /// <summary>
         /// Sorts a Collection by the specified function (lambda expression).
@@ -125,6 +132,7 @@ namespace ScriptableObjectArchitecture
                 return;
             }
             _list = _list.OrderBy(sorter).ToList();
+            Raise();
         }
         /// <summary>
         /// Gets the next element including wrapping/cycling back to
