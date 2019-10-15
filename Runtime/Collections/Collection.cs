@@ -22,7 +22,6 @@ namespace ScriptableObjectArchitecture
 
         [SerializeField]
         protected List<T> _list = new List<T>();
-
         public override IList List
         {
             get
@@ -30,6 +29,42 @@ namespace ScriptableObjectArchitecture
                 return _list;
             }
         }
+
+        [SerializeField]
+        protected int _selectedItemIndex;
+        public int SelectedItemIndex
+        {
+            get => _selectedItemIndex;
+            set
+            {
+                if (_selectedItemIndex != value)
+                {
+                    if (value > _list.Count - 1)
+                    {
+                        Debug.LogWarning("Collection.SelectedItemIndex: Unable to set, index out of range.");
+                        return;
+                    }
+                    _selectedItemIndex = value;
+                }
+            }
+        }
+        public T SelectedItem
+        {
+            get => _list[_selectedItemIndex];
+            set
+            {
+                if (!_list[_selectedItemIndex].Equals(value))
+                {
+                    if (!_list.Contains(value))
+                    {
+                        Debug.LogWarning("Collection.SelectedItem: Unable to set, item not in collection.");
+                        return;
+                    }
+                    _selectedItemIndex = _list.IndexOf(value);
+                }
+            }
+        }
+
         public override Type Type
         {
             get
