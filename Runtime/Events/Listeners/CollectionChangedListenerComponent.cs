@@ -2,32 +2,32 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class VariableChangedListenerObject<TVar> //, TEvent> 
+    public abstract class CollectionChangedListenerComponent<TColl> //, TEvent>
         : SOArchitectureBaseMonobehaviour, IGameEventListener
-        where TVar : BaseVariable
+        where TColl : BaseCollection
         //where TEvent : GameEventBase
     {
         //protected ScriptableObject GameEvent => Variable as TEvent;
-        [Header("Monitored Variable")]
-        [Tooltip("The variable to monitor for changes.")]
+        [Header("Monitored Collection")]
+        [Tooltip("The collection to monitor for changes.")]
         [SerializeField]
-        [EditorAssistant(typeof(BaseVariable), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: true)]
-        protected TVar Variable = default;
+        [EditorAssistant(typeof(BaseCollection), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: true)]
+        protected TColl Collection = default;
         [SerializeField, HideInInspector]
-        private TVar _previouslyRegisteredEvent = default;
+        private TColl _previouslyRegisteredEvent = default;
         /// <summary>
         /// Called by the variable when it changes.
         /// </summary>
         public abstract void OnEventRaised();
         protected virtual void OnEnable()
         {
-            if (Variable != null)
+            if (Collection != null)
                 Register();
         }
         private void OnDisable()
         {
-            if (Variable != null)
-                Variable.RemoveListener(this);
+            if (Collection != null)
+                Collection.RemoveListener(this);
         }
         private void Register()
         {
@@ -35,8 +35,8 @@ namespace ScriptableObjectArchitecture
             {
                 _previouslyRegisteredEvent.RemoveListener(this);
             }
-            Variable.AddListener(this);
-            _previouslyRegisteredEvent = Variable;
+            Collection.AddListener(this);
+            _previouslyRegisteredEvent = Collection;
         }
     }
 }

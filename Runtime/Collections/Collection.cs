@@ -20,15 +20,6 @@ namespace ScriptableObjectArchitecture
             }
         }
         [SerializeField]
-        protected List<T> _list = new List<T>();
-        public override IList List
-        {
-            get
-            {
-                return _list;
-            }
-        }
-        [SerializeField]
         protected int _selectedItemIndex;
         public int SelectedItemIndex
         {
@@ -45,6 +36,15 @@ namespace ScriptableObjectArchitecture
                     _selectedItemIndex = value;
                     Raise();
                 }
+            }
+        }
+        [SerializeField]
+        protected List<T> _list = new List<T>();
+        public override IList List
+        {
+            get
+            {
+                return _list;
             }
         }
         public T SelectedItem

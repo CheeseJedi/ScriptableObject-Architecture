@@ -16,7 +16,10 @@ namespace ScriptableObjectArchitecture.Editor
         {
             get { return serializedObject.FindProperty(LIST_PROPERTY_NAME);}
         }
-
+        private SerializedProperty SelectedItemIndexProperty
+        {
+            get { return serializedObject.FindProperty(SELECTED_ITEM_INDEX_PROPERTY_NAME); }
+        }
         private ReorderableList _reorderableList;
 
         // UI
@@ -34,6 +37,7 @@ namespace ScriptableObjectArchitecture.Editor
 
         // Property Names
         private const string LIST_PROPERTY_NAME = "_list";
+        private const string SELECTED_ITEM_INDEX_PROPERTY_NAME = "_selectedItemIndex";
         private const string DESCRIPTION_PROPERTY_NAME = "DeveloperDescription";
         private const string COLLECTIONSORTED_LABEL = "[This collection is automatically re-sorted]";
 
@@ -64,12 +68,13 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 EditorGUILayout.LabelField(COLLECTIONSORTED_LABEL);
             }
-
+            EditorGUILayout.PropertyField(SelectedItemIndexProperty);
             _reorderableList.DoLayoutList();
 
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
+                Target.Raise();
             }
         }
         private void DrawHeader(Rect rect)
