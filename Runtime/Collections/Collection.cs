@@ -98,6 +98,7 @@ namespace ScriptableObjectArchitecture
         public void Clear()
         {
             _list.Clear();
+            _selectedItemIndex = -1;
             Raise();
         }
         public bool Contains(T value)
@@ -115,6 +116,10 @@ namespace ScriptableObjectArchitecture
                 SelectedItemIndex--;
             }
             _list.RemoveAt(index);
+            if (IsAutoSorted)
+            {
+                Sort();
+            }
             Raise();
         }
         public void Insert(int index, T value)
@@ -132,13 +137,17 @@ namespace ScriptableObjectArchitecture
         {
             if (_list.Count < 2) return;
             T selected = SelectedItem;
-            if (reverse)
+            if (reverse) _list = _list.OrderByDescending(sorter).ToList();
+            else _list = _list.OrderBy(sorter).ToList();
+            if (selected == null)
             {
-                _list = _list.OrderByDescending(sorter).ToList();
-                return;
+                if (_list.Count > 0) _selectedItemIndex = 0;
+                else _selectedItemIndex = -1;
             }
-            _list = _list.OrderBy(sorter).ToList();
-            _selectedItemIndex = _list.IndexOf(selected);
+            else
+            {
+                _selectedItemIndex = _list.IndexOf(selected);
+            }
             Raise();
         }
         /// <summary>
