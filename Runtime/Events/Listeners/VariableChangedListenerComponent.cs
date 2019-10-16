@@ -2,7 +2,7 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class VariableChangedListenerObject<TVar> //, TEvent> 
+    public abstract class VariableChangedListenerComponent<TVar> //, TEvent> 
         : SOArchitectureBaseMonobehaviour, IGameEventListener
         where TVar : BaseVariable
         //where TEvent : GameEventBase
