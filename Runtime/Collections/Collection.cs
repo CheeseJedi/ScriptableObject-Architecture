@@ -49,7 +49,11 @@ namespace ScriptableObjectArchitecture
         }
         public T SelectedItem
         {
-            get => _list[_selectedItemIndex];
+            get
+            {
+                if (_selectedItemIndex == -1) return default;
+                return _list[_selectedItemIndex];
+            }
             set
             {
                 if (!_list[_selectedItemIndex].Equals(value))
