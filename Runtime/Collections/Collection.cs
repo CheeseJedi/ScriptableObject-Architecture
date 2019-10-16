@@ -130,6 +130,7 @@ namespace ScriptableObjectArchitecture
         /// <param name = "reverse">Whether the sort is in reverse.</param>
         public void Sort<TKey>(Func<T, TKey> sorter, bool reverse = false)
         {
+            if (_list.Count < 2) return;
             T selected = SelectedItem;
             if (reverse)
             {
