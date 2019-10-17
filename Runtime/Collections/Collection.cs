@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -68,7 +67,7 @@ namespace ScriptableObjectArchitecture
                 }
             }
         }
-        public override Type Type
+        public override System.Type Type
         {
             get
             {
@@ -137,13 +136,17 @@ namespace ScriptableObjectArchitecture
         {
             _list.CopyTo(array, arrayIndex);
         }
+        public T Find(System.Predicate<T> match)
+        {
+            return _list.Find(match);
+        }
         /// <summary>
         /// Sorts a Collection by the specified function (lambda expression).
         /// </summary>
         /// <typeparam name = "TKey"></typeparam>
         /// <param name = "sorter">The lambda expression to specify how to sort.</param>
         /// <param name = "reverse">Whether the sort is in reverse.</param>
-        public void Sort<TKey>(Func<T, TKey> sorter, bool reverse = false)
+        public void Sort<TKey>(System.Func<T, TKey> sorter, bool reverse = false)
         {
             if (_list.Count < 2) return;
             T selected = SelectedItem;
