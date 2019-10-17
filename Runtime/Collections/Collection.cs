@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ScriptableObjectArchitecture
 {
-    public class Collection<T> : BaseCollection, IEnumerable<T>
+    public class Collection<T> : BaseCollection, IList<T> // IEnumerable<T>
     {
         public new T this[int index]
         {
@@ -20,7 +20,7 @@ namespace ScriptableObjectArchitecture
             }
         }
         [SerializeField]
-        protected int _selectedItemIndex;
+        protected int _selectedItemIndex = -1;
         public int SelectedItemIndex
         {
             get => _selectedItemIndex;
@@ -40,7 +40,7 @@ namespace ScriptableObjectArchitecture
         }
         [SerializeField]
         protected List<T> _list = new List<T>();
-        public override IList List
+        protected override IList List
         {
             get
             {
@@ -87,7 +87,7 @@ namespace ScriptableObjectArchitecture
                 Raise();
             }
         }
-        public void Remove(T obj)
+        public bool Remove(T obj)
         {
             if (_list.Contains(obj))
             {
@@ -97,7 +97,9 @@ namespace ScriptableObjectArchitecture
                     Sort();
                 }
                 Raise();
+                return true;
             }
+            return false;
         }
         public void Clear()
         {
@@ -130,6 +132,10 @@ namespace ScriptableObjectArchitecture
         {
             _list.Insert(index, value);
             Raise();
+        }
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            _list.CopyTo(array, arrayIndex);
         }
         /// <summary>
         /// Sorts a Collection by the specified function (lambda expression).

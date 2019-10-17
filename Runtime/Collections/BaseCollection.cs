@@ -19,7 +19,7 @@ namespace ScriptableObjectArchitecture
 
         public int Count { get { return List.Count; } }
 
-        public abstract IList List { get; }
+        protected abstract IList List { get; }
         public abstract Type Type { get; }
 
         /// <summary>
@@ -27,6 +27,7 @@ namespace ScriptableObjectArchitecture
         /// classes that have implemented an overridden Sort method.
         /// </summary>
         public virtual bool IsAutoSorted => false;
+        public virtual bool IsReadOnly => false;
         private const string DEFAULT_DEVELOPER_DESCRIPTION = "Default description for a Collection. Click to edit.";
         private void Awake()
         {
