@@ -2,19 +2,16 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class CollectionChangedListenerComponent<TColl> //, TEvent>
+    public abstract class CollectionChangedListenerComponent //<TColl>
         : SOArchitectureBaseMonobehaviour, IGameEventListener
-        where TColl : BaseCollection
-        //where TEvent : GameEventBase
+        // where TColl : BaseCollection
     {
-        //protected ScriptableObject GameEvent => Variable as TEvent;
         [Header("Monitored Collection")]
-        [Tooltip("The collection to monitor for changes.")]
-        [SerializeField]
+        [SerializeField, Tooltip("The collection to monitor for changes.")]
         [EditorAssistant(typeof(BaseCollection), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: false)]
-        protected TColl Collection = default;
+        protected BaseCollection Collection = default;
         [SerializeField, HideInInspector]
-        private TColl _previouslyRegisteredEvent = default;
+        private BaseCollection _previouslyRegisteredEvent = default;
         /// <summary>
         /// Notification of modification elsewhere via event.
         /// </summary>
