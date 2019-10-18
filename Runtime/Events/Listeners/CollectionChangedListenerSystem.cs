@@ -11,12 +11,12 @@ namespace ScriptableObjectArchitecture
         [Header("Monitored Collection")]
         [Tooltip("The collection to monitor for changes.")]
         [SerializeField]
-        [EditorAssistant(typeof(BaseCollection), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: true)]
+        [EditorAssistant(typeof(BaseCollection), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: false)]
         protected TColl Collection = default;
         [SerializeField, HideInInspector]
         private TColl _previouslyRegisteredEvent = default;
         /// <summary>
-        /// Called by the variable when it changes.
+        /// Notification of modification elsewhere via event.
         /// </summary>
         public abstract void OnEventRaised();
         protected virtual void OnEnable()
