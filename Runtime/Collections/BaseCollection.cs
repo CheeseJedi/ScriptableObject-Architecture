@@ -58,10 +58,8 @@ namespace ScriptableObjectArchitecture
             }
         }
         public int Count { get { return List.Count; } }
-
         protected abstract IList List { get; }
         public abstract Type Type { get; }
-
         /// <summary>
         /// Whether the list is kept sorted - note only applies to
         /// classes that have implemented an overridden Sort method.
@@ -136,16 +134,10 @@ namespace ScriptableObjectArchitecture
         {
             List.CopyTo(array, arrayIndex);
         }
-
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return List.GetEnumerator();
         }
-
-
-
-
         /// <summary>
         /// Sort method stub - to be overridden by derived collections that
         /// need to have their contents sorted when an item is added or removed.
@@ -157,7 +149,19 @@ namespace ScriptableObjectArchitecture
         /// </remarks>
         public virtual void Sort() => Debug.LogWarning
             ($"{name}(BaseCollection).Sort: was called, but has no override.");
-
+        /// <summary>
+        /// Gets the next element including wrapping/cycling back to
+        /// element zero if at the end of the list.
+        /// </summary>
+        /// <param name="element">The current element.</param>
+        /// <param name="reverse">Whether the direction is reversed.</param>
+        /// <returns>The next element in the list.</returns>
+        public object GetNextInCycle(object element, bool reverse = false)
+        {
+            int currentIndex = List.IndexOf(element);
+            int nextIndex = (reverse ? List.Count + currentIndex - 1 : currentIndex + 1) % List.Count;
+            return List[nextIndex];
+        }
         public override string ToString()
         {
             return "BaseCollection<object>(" + Count + ")";

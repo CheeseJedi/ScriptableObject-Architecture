@@ -2,16 +2,15 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class VariableChangedListenerSystem<TVar> //, TEvent>
+    public abstract class VariableChangedListenerSystem<TVar>
         : ScriptableObjectSystem, IGameEventListener
         where TVar : BaseVariable
-        //where TEvent : GameEventBase
     {
-        //protected ScriptableObject GameEvent => Variable as TEvent;
         [Header("Monitored Variable")]
         [Tooltip("The variable to monitor for changes.")]
         [SerializeField]
-        [EditorAssistant(typeof(BaseVariable), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: true)]
+        [EditorAssistant(typeof(BaseVariable), missingObjectWarning: true, 
+            showCreateAssetButton: false, displayInspector: true)]
         protected TVar Variable = default;
         [SerializeField, HideInInspector]
         private TVar _previouslyRegisteredEvent = default;

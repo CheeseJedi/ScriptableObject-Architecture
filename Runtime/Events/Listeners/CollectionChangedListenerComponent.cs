@@ -7,7 +7,8 @@ namespace ScriptableObjectArchitecture
     {
         [Header("Monitored Collection")]
         [SerializeField, Tooltip("The collection to monitor for changes.")]
-        [EditorAssistant(typeof(BaseCollection), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: false)]
+        [EditorAssistant(typeof(BaseCollection), missingObjectWarning: true, 
+            showCreateAssetButton: false, displayInspector: false)]
         protected BaseCollection Collection = default;
         [SerializeField, HideInInspector]
         private BaseCollection _previouslyRegisteredEvent = default;
@@ -19,6 +20,7 @@ namespace ScriptableObjectArchitecture
         {
             if (Collection != null)
                 Register();
+            OnEventRaised();
         }
         private void OnDisable()
         {
