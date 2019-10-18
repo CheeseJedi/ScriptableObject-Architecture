@@ -2,9 +2,8 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class CollectionChangedListenerComponent //<TColl>
+    public abstract class CollectionChangedListenerComponent
         : SOArchitectureBaseMonobehaviour, IGameEventListener
-        // where TColl : BaseCollection
     {
         [Header("Monitored Collection")]
         [SerializeField, Tooltip("The collection to monitor for changes.")]
