@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine;
 using Type = System.Type;
 
 namespace ScriptableObjectArchitecture
@@ -16,7 +17,46 @@ namespace ScriptableObjectArchitecture
                 List[index] = value;
             }
         }
-
+        [SerializeField]
+        protected int _selectedItemIndex = -1;
+        public int SelectedItemIndex
+        {
+            get => _selectedItemIndex;
+            set
+            {
+                if (_selectedItemIndex != value)
+                {
+                    if (value > List.Count - 1)
+                    {
+                        Debug.LogWarning("Collection.SelectedItemIndex: Unable to set, index out of range.");
+                        return;
+                    }
+                    _selectedItemIndex = value;
+                    Raise();
+                }
+            }
+        }
+        public object SelectedItem
+        {
+            get
+            {
+                if (_selectedItemIndex == -1) return default;
+                return List[_selectedItemIndex];
+            }
+            set
+            {
+                if (!List[_selectedItemIndex].Equals(value))
+                {
+                    if (!List.Contains(value))
+                    {
+                        Debug.LogWarning("Collection.SelectedItem: Unable to set, item not in collection.");
+                        return;
+                    }
+                    _selectedItemIndex = List.IndexOf(value);
+                    Raise();
+                }
+            }
+        }
         public int Count { get { return List.Count; } }
 
         protected abstract IList List { get; }
@@ -34,14 +74,77 @@ namespace ScriptableObjectArchitecture
             if (DeveloperDescription == BASE_DEFAULT_DEVELOPER_DESCRIPTION)
                 DeveloperDescription = new DeveloperDescription(DEFAULT_DEVELOPER_DESCRIPTION);
         }
-        IEnumerator IEnumerable.GetEnumerator()
+        public void Add(object obj)
         {
-            return List.GetEnumerator();
+            if (!List.Contains(obj))
+            {
+                List.Add(obj);
+                if (IsAutoSorted)
+                {
+                    Sort();
+                }
+                Raise();
+            }
+        }
+        public bool Remove(object obj)
+        {
+            if (List.Contains(obj))
+            {
+                List.Remove(obj);
+                if (IsAutoSorted)
+                {
+                    Sort();
+                }
+                Raise();
+                return true;
+            }
+            return false;
+        }
+        public void Clear()
+        {
+            List.Clear();
+            _selectedItemIndex = -1;
+            Raise();
         }
         public bool Contains(object obj)
         {
             return List.Contains(obj);
         }
+        public int IndexOf(object obj)
+        {
+            return List.IndexOf(obj);
+        }
+        public void RemoveAt(int index)
+        {
+            if (index == _selectedItemIndex)
+            {
+                SelectedItemIndex--;
+            }
+            List.RemoveAt(index);
+            if (IsAutoSorted)
+            {
+                Sort();
+            }
+            Raise();
+        }
+        public void Insert(int index, object obj)
+        {
+            List.Insert(index, obj);
+            Raise();
+        }
+        public void CopyTo(object[] array, int arrayIndex)
+        {
+            List.CopyTo(array, arrayIndex);
+        }
+
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return List.GetEnumerator();
+        }
+
+
+
 
         /// <summary>
         /// Sort method stub - to be overridden by derived collections that
@@ -52,7 +155,14 @@ namespace ScriptableObjectArchitecture
         /// over directly modifying the contents via the Collection's List
         /// property - the latter will not trigger a Sort operation.
         /// </remarks>
-        public virtual void Sort() => UnityEngine.Debug.LogWarning
+        public virtual void Sort() => Debug.LogWarning
             ($"{name}(BaseCollection).Sort: was called, but has no override.");
+
+        public override string ToString()
+        {
+            return "BaseCollection<object>(" + Count + ")";
+        }
+
+
     }
 }

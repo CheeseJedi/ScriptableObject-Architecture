@@ -19,52 +19,12 @@ namespace ScriptableObjectArchitecture
             }
         }
         [SerializeField]
-        protected int _selectedItemIndex = -1;
-        public int SelectedItemIndex
-        {
-            get => _selectedItemIndex;
-            set
-            {
-                if (_selectedItemIndex != value)
-                {
-                    if (value > _list.Count - 1)
-                    {
-                        Debug.LogWarning("Collection.SelectedItemIndex: Unable to set, index out of range.");
-                        return;
-                    }
-                    _selectedItemIndex = value;
-                    Raise();
-                }
-            }
-        }
-        [SerializeField]
         protected List<T> _list = new List<T>();
         protected override IList List
         {
             get
             {
                 return _list;
-            }
-        }
-        public T SelectedItem
-        {
-            get
-            {
-                if (_selectedItemIndex == -1) return default;
-                return _list[_selectedItemIndex];
-            }
-            set
-            {
-                if (!_list[_selectedItemIndex].Equals(value))
-                {
-                    if (!_list.Contains(value))
-                    {
-                        Debug.LogWarning("Collection.SelectedItem: Unable to set, item not in collection.");
-                        return;
-                    }
-                    _selectedItemIndex = _list.IndexOf(value);
-                    Raise();
-                }
             }
         }
         public override System.Type Type
@@ -100,12 +60,6 @@ namespace ScriptableObjectArchitecture
             }
             return false;
         }
-        public void Clear()
-        {
-            _list.Clear();
-            _selectedItemIndex = -1;
-            Raise();
-        }
         public bool Contains(T value)
         {
             return _list.Contains(value);
@@ -113,19 +67,6 @@ namespace ScriptableObjectArchitecture
         public int IndexOf(T value)
         {
             return _list.IndexOf(value);
-        }
-        public void RemoveAt(int index)
-        {
-            if (index == _selectedItemIndex)
-            {
-                SelectedItemIndex--;
-            }
-            _list.RemoveAt(index);
-            if (IsAutoSorted)
-            {
-                Sort();
-            }
-            Raise();
         }
         public void Insert(int index, T value)
         {
@@ -149,7 +90,7 @@ namespace ScriptableObjectArchitecture
         public void Sort<TKey>(System.Func<T, TKey> sorter, bool reverse = false)
         {
             if (_list.Count < 2) return;
-            T selected = SelectedItem;
+            T selected = (T)SelectedItem;
             if (reverse) _list = _list.OrderByDescending(sorter).ToList();
             else _list = _list.OrderBy(sorter).ToList();
             if (selected == null)
