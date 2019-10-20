@@ -13,7 +13,6 @@ namespace ScriptableObjectArchitecture
         //[Header("Persistence")]
         [SerializeField, Tooltip("Persistence Guid - must be unique.")]
         private string _persistenceGuid;
-
         public string PersistenceGuid
         {
             get
@@ -54,6 +53,13 @@ namespace ScriptableObjectArchitecture
         private void AssignGuid()
         {
             _persistenceGuid = System.Guid.NewGuid().ToString();
+        }
+        protected void RaiseReadonlyWarning()
+        {
+            if (!_readOnly || !_raiseWarning)
+                return;
+
+            Debug.LogWarning("Tried to set value on " + name + ", but value is readonly!", this);
         }
 
     }
@@ -161,13 +167,6 @@ namespace ScriptableObjectArchitecture
         protected virtual T ClampValue(T value)
         {
             return value;
-        }
-        private void RaiseReadonlyWarning()
-        {
-            if (!_readOnly || !_raiseWarning)
-                return;
-
-            Debug.LogWarning("Tried to set value on " + name + ", but value is readonly!", this);
         }
         public override string ToString()
         {
