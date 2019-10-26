@@ -13,5 +13,10 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         protected DeveloperDescription DeveloperDescription = new DeveloperDescription(BASE_DEFAULT_DEVELOPER_DESCRIPTION);
 #pragma warning restore
+        /// <summary>
+        /// Gets the ScriptableObject's name.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetName() => name;
     } 
 }

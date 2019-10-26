@@ -166,7 +166,9 @@ namespace ScriptableObjectArchitecture
         {
             return "BaseCollection<object>(" + Count + ")";
         }
-
-
+        public virtual string GetNameOfItem(int index)
+        {
+            return $"[{index:00}]_{List[index].ToString()}";
+        }
     }
 }
