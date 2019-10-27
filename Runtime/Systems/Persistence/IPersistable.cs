@@ -6,11 +6,12 @@ namespace ScriptableObjectArchitecture
 {
     public interface IPersistable
     {
+        string Name { get; }
+        bool PersistenceEnabled { get; }
         string PersistenceGuid { get; }
         System.Type Type { get; }
         bool HasChildObjects { get; }
-        bool PersistenceEnabled { get; }
-        string Serialise();
-        void Deserialise(string input);
+        object Serialise();
+        void Deserialise(object input);
     }
 }
