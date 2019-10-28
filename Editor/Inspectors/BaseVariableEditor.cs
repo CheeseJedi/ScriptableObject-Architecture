@@ -44,21 +44,15 @@ namespace ScriptableObjectArchitecture.Editor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            DrawDeveloperDescription();
-            GUILayout.Space(16);
-            DrawValue();
-            DrawDefaultValue();
-            DrawClampedFields();
-            DrawReadonlyField();
-            DrawResetValueButton();
-        }
-        protected virtual void DrawValue()
-        {
             using (var scope = new EditorGUI.ChangeCheckScope())
             {
-                string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
-                GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
-
+                DrawDeveloperDescription();
+                GUILayout.Space(16);
+                DrawValue();
+                DrawDefaultValue();
+                DrawClampedFields();
+                DrawReadonlyField();
+                DrawResetValueButton();
                 if (scope.changed)
                 {
                     serializedObject.ApplyModifiedProperties();
@@ -66,6 +60,22 @@ namespace ScriptableObjectArchitecture.Editor
                     // Value changed, raise events
                     Target.Raise();
                 }
+            }
+        }
+        protected virtual void DrawValue()
+        {
+            //using (var scope = new EditorGUI.ChangeCheckScope())
+            {
+                string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
+                GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
+
+                //if (scope.changed)
+                //{
+                //    serializedObject.ApplyModifiedProperties();
+
+                //    // Value changed, raise events
+                //    Target.Raise();
+                //}
             }
         }
         protected virtual void DrawDefaultValue()
@@ -92,7 +102,6 @@ namespace ScriptableObjectArchitecture.Editor
                     }
                 }                
             }
-            
         }
         protected void DrawReadonlyField()
         {
