@@ -7,12 +7,12 @@ namespace ScriptableObjectArchitecture.Editor
     [CustomEditor(typeof(BaseCollection), true)]
     public class CollectionEditor : UnityEditor.Editor
     {
-        private BaseCollection Target { get { return (BaseCollection)target; } }
+        protected BaseCollection Target { get { return (BaseCollection)target; } }
         private SerializedProperty DeveloperDescriptionProperty
         {
             get { return serializedObject.FindProperty(DESCRIPTION_PROPERTY_NAME); }
         }
-        private SerializedProperty CollectionItemsProperty
+        protected SerializedProperty CollectionItemsProperty
         {
             get { return serializedObject.FindProperty(LIST_PROPERTY_NAME);}
         }
@@ -20,17 +20,17 @@ namespace ScriptableObjectArchitecture.Editor
         {
             get { return serializedObject.FindProperty(SELECTED_ITEM_INDEX_PROPERTY_NAME); }
         }
-        private ReorderableList _reorderableList;
+        protected ReorderableList _reorderableList;
 
         // UI
-        private const bool DISABLE_ELEMENTS = false;
+        protected const bool DISABLE_ELEMENTS = false;
         private const bool ELEMENT_DRAGGABLE = true;
         private const bool LIST_DISPLAY_HEADER = true;
         private const bool LIST_DISPLAY_ADD_BUTTON = true;
         private const bool LIST_DISPLAY_REMOVE_BUTTON = true;
 
         private GUIContent _titleGUIContent;
-        private GUIContent _noPropertyDrawerWarningGUIContent;
+        protected GUIContent _noPropertyDrawerWarningGUIContent;
 
         private const string TITLE_FORMAT = "List ({0})";
         private const string NO_PROPERTY_WARNING_FORMAT = "No PropertyDrawer for type [{0}]";
@@ -40,8 +40,10 @@ namespace ScriptableObjectArchitecture.Editor
         private const string SELECTED_ITEM_INDEX_PROPERTY_NAME = "_selectedItemIndex";
         private const string DESCRIPTION_PROPERTY_NAME = "DeveloperDescription";
         private const string COLLECTIONSORTED_LABEL = "[This collection is automatically re-sorted]";
+        protected const float STD_LINE_HEIGHT = 16;
+        protected const float STD_LINE_SPACER_HEIGHT = 2;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             _titleGUIContent = new GUIContent(string.Format(TITLE_FORMAT, Target.Type));
             _noPropertyDrawerWarningGUIContent = new GUIContent(string.Format(NO_PROPERTY_WARNING_FORMAT, Target.Type));
@@ -55,6 +57,7 @@ namespace ScriptableObjectArchitecture.Editor
                 LIST_DISPLAY_REMOVE_BUTTON)
             {
                 drawHeaderCallback = DrawHeader,
+                elementHeightCallback = GetElementHeight,
                 drawElementCallback = DrawElement,
             };
         }
@@ -81,7 +84,15 @@ namespace ScriptableObjectArchitecture.Editor
         {
             EditorGUI.LabelField(rect, _titleGUIContent);
         }
-        private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
+
+        protected virtual float GetElementHeight(int index)
+        {
+            SerializedProperty property = CollectionItemsProperty.GetArrayElementAtIndex(index);
+            if (property == null) return STD_LINE_HEIGHT + STD_LINE_SPACER_HEIGHT;
+            return EditorGUI.GetPropertyHeight(property) + STD_LINE_SPACER_HEIGHT;
+        }
+
+        protected virtual void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             rect = SOArchitecture_EditorUtility.GetReorderableListElementFieldRect(rect);
             SerializedProperty property = CollectionItemsProperty.GetArrayElementAtIndex(index);

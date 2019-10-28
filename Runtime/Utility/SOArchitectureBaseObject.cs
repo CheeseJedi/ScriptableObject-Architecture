@@ -12,7 +12,7 @@ namespace ScriptableObjectArchitecture
 #pragma warning disable 0414
         [SerializeField]
         protected DeveloperDescription DeveloperDescription = new DeveloperDescription(BASE_DEFAULT_DEVELOPER_DESCRIPTION);
-#pragma warning restore
+#pragma warning restore 0414
         /// <summary>
         /// Gets the ScriptableObject's name.
         /// </summary>
