@@ -34,7 +34,6 @@ namespace ScriptableObjectArchitecture
         [Header("Persistence")]
         [SerializeField, Tooltip("Persistence Guid - must be unique.")]
         private string _persistenceGuid;
-        public string Name => name;
         public string PersistenceGuid
         {
             get
