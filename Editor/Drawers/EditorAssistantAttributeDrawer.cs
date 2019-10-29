@@ -14,7 +14,7 @@ namespace ScriptableObjectArchitecture
         private const float STD_LINE_HEIGHT = 16;
         private const float STD_LINE_SPACER_HEIGHT = 2;
         private const float HELP_BOX_HEIGHT = 40;
-        private const float CREATE_BUTTON_HEIGHT = 16;
+        private const float CREATE_BUTTON_HEIGHT = STD_LINE_HEIGHT;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorAssistantAttribute attrib = attribute as EditorAssistantAttribute;
@@ -25,7 +25,7 @@ namespace ScriptableObjectArchitecture
             bool createAssetButtonClicked = false;
             position.height = STD_LINE_HEIGHT;
             Rect foldOutPos = new Rect(position);
-            foldOutPos.width = EditorGUIUtility.labelWidth; //= 5; 
+            foldOutPos.width = EditorGUIUtility.labelWidth;
             if (property.objectReferenceValue != null && attrib.DisplayInspector)
             {
                 DrawFoldout(foldOutPos, property);
@@ -41,7 +41,6 @@ namespace ScriptableObjectArchitecture
                 Rect helpBoxRect = new Rect(position);
                 if (attrib.MissingObjectWarning)
                 {
-                    //helpBoxRect.y += STD_LINE_HEIGHT + STD_LINE_SPACER_HEIGHT;
                     helpBoxRect.height = HELP_BOX_HEIGHT;
                     DrawHelpBox(helpBoxRect, attrib);
                 }
@@ -93,7 +92,7 @@ namespace ScriptableObjectArchitecture
             }
             if (property.isExpanded)
             {
-                float height = 0; // -STD_LINE_SPACER_HEIGHT;
+                float height = 0;
                 var propertyObject = new SerializedObject(property.objectReferenceValue).GetIterator();
                 propertyObject.Next(true);
                 while (propertyObject.NextVisible(false))
@@ -124,7 +123,7 @@ namespace ScriptableObjectArchitecture
             EditorGUI.EndDisabledGroup();
             return result;
         }
-        private void DrawSubInspector(Rect position, SerializedProperty property) //, EditorAssistantAttribute attrib)
+        private void DrawSubInspector(Rect position, SerializedProperty property)
         {
             using (SerializedProperty propertyObject =
                 new SerializedObject(property.objectReferenceValue).GetIterator())
@@ -156,7 +155,7 @@ namespace ScriptableObjectArchitecture
                 else
                 {
                     //Create the asset.
-                    property.objectReferenceValue = newObj; // ScriptableObjectUtility.CreateAsset<>(); //  <attrib.Type.GetType().Name>();
+                    property.objectReferenceValue = newObj;
                     property.serializedObject.ApplyModifiedProperties();
                 }
             }
