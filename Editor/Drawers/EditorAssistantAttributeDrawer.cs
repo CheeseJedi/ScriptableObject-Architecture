@@ -20,12 +20,14 @@ namespace ScriptableObjectArchitecture
             EditorAssistantAttribute attrib = attribute as EditorAssistantAttribute;
             if (attrib == null)
             {
-                Debug.LogError("attrib was null.");
+                Debug.LogError("EditorAssistantAttributeDrawer: attrib was null.");
             }
             bool createAssetButtonClicked = false;
             position.height = STD_LINE_HEIGHT;
-            Rect foldOutPos = new Rect(position);
-            foldOutPos.width = EditorGUIUtility.labelWidth;
+            Rect foldOutPos = new Rect(position)
+            {
+                width = EditorGUIUtility.labelWidth
+            };
             if (property.objectReferenceValue != null && attrib.DisplayInspector)
             {
                 DrawFoldout(foldOutPos, property);
@@ -34,7 +36,7 @@ namespace ScriptableObjectArchitecture
             {
                 property.isExpanded = false;
             }
-            DrawPropertyField(position, property, label);
+            DrawPropertyField(position, property); //, label);
             position.y += STD_LINE_HEIGHT + STD_LINE_SPACER_HEIGHT;
             if (property.objectReferenceValue == null)
             {
@@ -93,11 +95,14 @@ namespace ScriptableObjectArchitecture
             if (property.isExpanded)
             {
                 float height = 0;
-                var propertyObject = new SerializedObject(property.objectReferenceValue).GetIterator();
-                propertyObject.Next(true);
-                while (propertyObject.NextVisible(false))
+                using (SerializedProperty propertyObject = new SerializedObject
+                    (property.objectReferenceValue).GetIterator())
                 {
-                    height += EditorGUI.GetPropertyHeight(propertyObject) + STD_LINE_SPACER_HEIGHT;
+                    propertyObject.Next(true);
+                    while (propertyObject.NextVisible(false))
+                    {
+                        height += EditorGUI.GetPropertyHeight(propertyObject) + STD_LINE_SPACER_HEIGHT;
+                    }
                 }
                 return height;
             }
@@ -107,7 +112,7 @@ namespace ScriptableObjectArchitecture
         {
             property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, GUIContent.none, toggleOnLabelClick: true);
         }
-        private void DrawPropertyField(Rect position, SerializedProperty property, GUIContent label)
+        private void DrawPropertyField(Rect position, SerializedProperty property) //, GUIContent label)
         {
             EditorGUI.PropertyField(position, property);
         }
@@ -125,8 +130,8 @@ namespace ScriptableObjectArchitecture
         }
         private void DrawSubInspector(Rect position, SerializedProperty property)
         {
-            using (SerializedProperty propertyObject =
-                new SerializedObject(property.objectReferenceValue).GetIterator())
+            using (SerializedProperty propertyObject = new SerializedObject
+                (property.objectReferenceValue).GetIterator())
             {
                 propertyObject.Next(true);
                 propertyObject.NextVisible(false);
@@ -147,18 +152,21 @@ namespace ScriptableObjectArchitecture
         private void CreateNewAsset(SerializedProperty property, EditorAssistantAttribute attrib)
         {
             MethodInfo createAssetMethod = attrib.Type.GetMethod("CreateAsset", BindingFlags.Public | BindingFlags.Static);
-            if (createAssetMethod == null) Debug.LogWarning("EditorAssistantAttributeDrawer: Creating new asset failed - unable to find a public CreateAsset() method for the specified type.");
-            else
+            if (createAssetMethod == null)
             {
-                ScriptableObject newObj = (ScriptableObject)createAssetMethod.Invoke(attrib.Type, null);
-                if (newObj == null) Debug.LogError("EditorAssistantAttributeDrawer: Creating new asset failed - returned object was null.");
-                else
-                {
-                    //Create the asset.
-                    property.objectReferenceValue = newObj;
-                    property.serializedObject.ApplyModifiedProperties();
-                }
+                Debug.LogError("EditorAssistantAttributeDrawer: Creating new asset failed - unable to find a public CreateAsset() method for the specified type.");
+                return;
             }
+            ScriptableObject newObj = (ScriptableObject)createAssetMethod.Invoke(attrib.Type, null);
+            if (newObj == null)
+            {
+                Debug.LogError("EditorAssistantAttributeDrawer: Creating new asset failed - returned object was null.");
+                return;
+            }
+            //Create the asset.
+            property.objectReferenceValue = newObj;
+            property.serializedObject.ApplyModifiedProperties();
+
         }
     }
 }
