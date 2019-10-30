@@ -16,7 +16,9 @@ namespace ScriptableObjectArchitecture
         public abstract System.Type Type { get; }
         public abstract object BaseValue { get; set; }
         private const string DEFAULT_DEVELOPER_DESCRIPTION = "Default description for a Variable. Click to edit.";
+#pragma warning disable IDE0051 // Remove unused private members
         private void Awake()
+#pragma warning restore IDE0051 // Remove unused private members
         {
             if (DeveloperDescription == BASE_DEFAULT_DEVELOPER_DESCRIPTION)
                 DeveloperDescription = new DeveloperDescription(DEFAULT_DEVELOPER_DESCRIPTION);
@@ -90,7 +92,7 @@ namespace ScriptableObjectArchitecture
                 }
                 else
                 {
-                    return default(T);
+                    return default;
                 }
             }
         }
@@ -104,7 +106,7 @@ namespace ScriptableObjectArchitecture
                 }
                 else
                 {
-                    return default(T);
+                    return default;
                 }
             }
         }
@@ -124,13 +126,13 @@ namespace ScriptableObjectArchitecture
         }
 
         [SerializeField]
-        protected T _value = default(T);
+        protected T _value = default;
         [SerializeField]
-        protected T _defaultValue = default(T);
+        protected T _defaultValue = default;
         [SerializeField]
-        protected T _minClampedValue = default(T);
+        protected T _minClampedValue = default;
         [SerializeField]
-        protected T _maxClampedValue = default(T);
+        protected T _maxClampedValue = default;
 
         public virtual T SetValue(T value)
         {

@@ -117,10 +117,10 @@ namespace ScriptableObjectArchitecture
             int nextIndex = (reverse ? _list.Count + currentIndex - 1 : currentIndex + 1) % _list.Count;
             return _list[nextIndex];
         }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    return GetEnumerator();
+        //}
         public IEnumerator<T> GetEnumerator()
         {
             return _list.GetEnumerator();
