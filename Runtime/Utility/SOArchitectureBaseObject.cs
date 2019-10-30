@@ -17,6 +17,6 @@ namespace ScriptableObjectArchitecture
         /// Gets the ScriptableObject's name.
         /// </summary>
         /// <returns></returns>
-        public virtual string Name => name;
+        //public virtual string Name => name;
     } 
 }
