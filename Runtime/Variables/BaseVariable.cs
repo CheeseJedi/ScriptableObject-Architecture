@@ -2,7 +2,7 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class BaseVariable : GameEventBase, IPersistable
+    public abstract class BaseVariable : GameEventBase
     {
         [SerializeField]
         protected bool _readOnly = false;
@@ -31,42 +31,6 @@ namespace ScriptableObjectArchitecture
 
             Debug.LogWarning("Tried to set value on " + name + ", but value is readonly!", this);
         }
-
-        #region IPersistable implementation
-        [Header("Persistence")]
-        [SerializeField, Tooltip("Persistence Guid - must be unique.")]
-        private string _persistenceGuid;
-        public string PersistenceGuid
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_persistenceGuid))
-                {
-                    AssignGuid();
-                }
-                return _persistenceGuid;
-            }
-        }
-        public virtual bool PersistenceEnabled => false;
-        public virtual bool HasChildObjects => false;
-        /// <summary>
-        /// An over-ridable method to populate the object with the passed input data.
-        /// </summary>
-        /// <param name="input"></param>
-        public virtual void Deserialise(object input) => throw new System.NotImplementedException
-            ($"{name}(BaseVariable).Deserialise: Called, but not over-ridden.");
-        /// <summary>
-        /// An over-ridable method to create serialisable data from the object's state.
-        /// </summary>
-        /// <returns></returns>
-        public virtual object Serialise() => throw new System.NotImplementedException
-            ($"{name}(BaseVariable).Serialise: Called, but not over-ridden.");
-        private void AssignGuid()
-        {
-            _persistenceGuid = System.Guid.NewGuid().ToString();
-        }
-        #endregion
-
     }
     public abstract class BaseVariable<T> : BaseVariable
     {

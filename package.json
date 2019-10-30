@@ -5,10 +5,10 @@
   "description": "A fork of the ScriptableObject-Architecture GitHub repository, which was based on Ryan Hipple's Unite Austin 2017 talk. Makes using Scriptable Objects as a fundamental part of your architecture in Unity super easy.",
   "unity": "2019.1",
   "license": "MIT",
- "keywords": [
+  "keywords": [
     "ScriptableObject",
     "Architecture",
     "SOA",
-	"Unity"
+    "Unity"
   ]
 }
