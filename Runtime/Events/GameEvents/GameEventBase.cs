@@ -52,7 +52,7 @@ namespace ScriptableObjectArchitecture
             return "GameEventBase<" + typeof(T) + ">";
         }
     }
-    public abstract class GameEventBase : SOArchitectureBaseObject, IGameEvent, IStackTraceObject
+    public abstract class GameEventBase : ScriptableObjectSystem, IGameEvent, IStackTraceObject
     {
         protected readonly List<IGameEventListener> _listeners = new List<IGameEventListener>();
         protected readonly List<System.Action> _actions = new List<System.Action>();

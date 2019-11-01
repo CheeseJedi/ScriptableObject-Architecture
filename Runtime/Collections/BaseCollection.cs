@@ -21,14 +21,20 @@ namespace ScriptableObjectArchitecture
         protected int _selectedItemIndex = -1;
         public int SelectedItemIndex
         {
-            get => _selectedItemIndex;
+            get
+            {
+                if (IsSelectedItemTracked)
+                    return _selectedItemIndex;
+                else
+                    return -1;
+                }
             set
             {
                 if (_selectedItemIndex != value)
                 {
                     if (value > List.Count - 1)
                     {
-                        Debug.LogWarning("Collection.SelectedItemIndex: Unable to set, index out of range.");
+                        Debug.LogError("Collection.SelectedItemIndex: Unable to set, index out of range.");
                         return;
                     }
                     _selectedItemIndex = value;
@@ -40,6 +46,7 @@ namespace ScriptableObjectArchitecture
         {
             get
             {
+                if (!IsSelectedItemTracked) return default;
                 if (_selectedItemIndex == -1) return default;
                 return List[_selectedItemIndex];
             }
@@ -66,6 +73,7 @@ namespace ScriptableObjectArchitecture
         /// </summary>
         public virtual bool IsAutoSorted => false;
         public virtual bool IsReadOnly => false;
+        public virtual bool IsSelectedItemTracked => false;
 
         public bool IsFixedSize => List.IsFixedSize;
         public bool IsSynchronized => List.IsSynchronized;
