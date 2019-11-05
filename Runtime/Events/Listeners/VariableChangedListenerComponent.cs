@@ -3,7 +3,7 @@
 namespace ScriptableObjectArchitecture
 {
     public abstract class VariableChangedListenerComponent<TVar>
-        : SOArchitectureBaseMonobehaviour, IGameEventListener
+        : SOArch_BaseMonoBehaviour, IGameEventListener
         where TVar : BaseVariable
     {
         [Header("Monitored Variable")]

@@ -3,7 +3,7 @@
 namespace ScriptableObjectArchitecture
 {
     [DefaultExecutionOrder(-80)]
-    public class CallbackTransmitterComponent : SOArchitectureBaseMonobehaviour, ICallbackTransmitter
+    public class CallbackTransmitterComponent : SOArch_BaseMonoBehaviour, ICallbackTransmitter
     {
         [Header("Callback Receiver")]
         [Tooltip("The system that requires callbacks - typically a CallbackDistributorSystem asset.")]

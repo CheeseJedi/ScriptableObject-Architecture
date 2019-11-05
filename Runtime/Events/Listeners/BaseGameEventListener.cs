@@ -105,7 +105,7 @@ where TResponse : UnityEvent<TType>
             _previouslyRegisteredEvent = _event;
         }
     }
-    public abstract class DebuggableGameEventListener : SOArchitectureBaseMonobehaviour, IStackTraceObject
+    public abstract class DebuggableGameEventListener : SOArch_BaseMonoBehaviour, IStackTraceObject
     {
 #pragma warning disable 0414
         [SerializeField]

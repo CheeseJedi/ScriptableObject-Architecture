@@ -3,7 +3,7 @@
 namespace ScriptableObjectArchitecture
 {
     public abstract class CollectionChangedListenerComponent
-        : SOArchitectureBaseMonobehaviour, IGameEventListener
+        : SOArch_BaseMonoBehaviour, IGameEventListener
     {
         [Header("Monitored Collection")]
         [SerializeField, Tooltip("The collection to monitor for changes.")]

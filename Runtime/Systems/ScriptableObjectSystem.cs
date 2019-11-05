@@ -2,7 +2,7 @@
 
 namespace ScriptableObjectArchitecture
 {
-    public abstract class ScriptableObjectSystem : SOArchitectureBaseObject, ICallbackReceiver
+    public abstract class ScriptableObjectSystem : SOArch_BaseScriptableObject, ICallbackReceiver
     {
         public CallbackDistributorSystem CallbackDistributor { get; set; }
         public virtual CallbackType CallbackOn => CallbackType.None;
