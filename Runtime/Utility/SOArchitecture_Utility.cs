@@ -12,6 +12,8 @@
         public const string VARIABLE_COLLECTION_SUBMENU = COLLECTION_SUBMENU + VARIABLE_SUBMENU;
         public const string GAME_EVENTS_SUBMENU = "Game Events/";
         public const string SYSTEMS_SUBMENU = "Systems/";
+        public const string PERSISTENCE_SUBMENU = SYSTEMS_SUBMENU + "Persistence/";
+        public const string SERIALIZER_SUBMENU = PERSISTENCE_SUBMENU + "Serializers/";
 
         public const string ADVANCED_GAME_EVENT = GAME_EVENTS_SUBMENU + "Advanced/";
         public const string ADVANCED_VARIABLE_SUBMENU = VARIABLE_SUBMENU + "Advanced/";
