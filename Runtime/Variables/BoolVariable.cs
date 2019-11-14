@@ -9,5 +9,6 @@ namespace ScriptableObjectArchitecture
     public sealed class BoolVariable : BaseVariable<bool>
     {
         public static BoolVariable CreateAsset() => EditorAssistantUtility.CreateAsset<BoolVariable>();
+        public override bool IsPersistable => true;
     }
 }

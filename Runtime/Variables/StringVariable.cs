@@ -9,5 +9,6 @@ namespace ScriptableObjectArchitecture
     public sealed class StringVariable : BaseVariable<string>
     {
         public static StringVariable CreateAsset() => EditorAssistantUtility.CreateAsset<StringVariable>();
+        public override bool IsPersistable => true;
     }
 }

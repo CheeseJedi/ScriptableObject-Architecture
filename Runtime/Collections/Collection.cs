@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ScriptableObjectArchitecture
 {
-    public class Collection<T> : BaseCollection, IList<T> // IEnumerable<T>
+    public class Collection<T> : BaseCollection, IList<T>
     {
         public new T this[int index]
         {
@@ -91,12 +91,10 @@ namespace ScriptableObjectArchitecture
         {
             if (_list.Count < 2) return;
             T selected = (T)SelectedItem;
-            if (reverse) _list = _list.OrderByDescending(sorter).ToList();
-            else _list = _list.OrderBy(sorter).ToList();
+            _list = reverse ? _list.OrderByDescending(sorter).ToList() : _list.OrderBy(sorter).ToList();
             if (selected == null)
             {
-                if (_list.Count > 0) _selectedItemIndex = 0;
-                else _selectedItemIndex = -1;
+                _selectedItemIndex = _list.Count > 0 ? 0 : -1;
             }
             else
             {
@@ -117,10 +115,6 @@ namespace ScriptableObjectArchitecture
             int nextIndex = (reverse ? _list.Count + currentIndex - 1 : currentIndex + 1) % _list.Count;
             return _list[nextIndex];
         }
-        //IEnumerator IEnumerable.GetEnumerator()
-        //{
-        //    return GetEnumerator();
-        //}
         public IEnumerator<T> GetEnumerator()
         {
             return _list.GetEnumerator();
@@ -132,5 +126,5 @@ namespace ScriptableObjectArchitecture
         public T[] ToArray() {
             return _list.ToArray();
         }
-    } 
+    }
 }

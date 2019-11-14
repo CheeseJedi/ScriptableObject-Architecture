@@ -7,16 +7,8 @@ namespace ScriptableObjectArchitecture
         fileName = "CallbackDistributorSystem.asset",
         menuName = SOArchitecture_Utility.SYSTEMS_SUBMENU + "Callback Distributor",
         order = SOArchitecture_Utility.ASSET_MENU_ORDER_SYSTEMS + 0)]
-    public class CallbackDistributorSystem : ScriptableObjectSystem, ICallbackTransmitter
+    public class CallbackDistributorSystem : Collection<ScriptableObjectSystem>, ICallbackTransmitter
     {
-        [Header("Hosted Systems")]
-        [Tooltip("Hosted Systems added to this list will receive callbacks.")]
-        //[EditorAssistant(typeof(ScriptableObjectSystem), missingObjectWarning: true, showCreateAssetButton: false, displayInspector: false)]
-        public List<ScriptableObjectSystem> HostedSystems = default;
-        [Header("Back Burner")]
-        [Tooltip("ScriptableObjects added to this list will be 'kept alive' (not unloaded) as long as the CallbackDistributorSystem is referenced in the scene.")]
-        public List<ScriptableObject> BackBurner = default;
-
         public static CallbackDistributorSystem CreateAsset() =>
             EditorAssistantUtility.CreateAsset<CallbackDistributorSystem>();
         public override CallbackType CallbackOn => CallbackType.Everything;
@@ -28,61 +20,64 @@ namespace ScriptableObjectArchitecture
             if (DeveloperDescription == BASE_DEFAULT_DEVELOPER_DESCRIPTION)
                 DeveloperDescription = new DeveloperDescription(DEFAULT_DEVELOPER_DESCRIPTION);
         }
+        [Header("Back Burner")]
+        [Tooltip("ScriptableObjects added to this list will be 'kept alive' (not unloaded) as long as the CallbackDistributorSystem is referenced in the scene.")]
+        public List<ScriptableObject> BackBurner = default;
         public override void Start()
         {
-            for (int i = 0; i < HostedSystems.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                HostedSystems[i].CallbackDistributor = this;
-                if ((HostedSystems[i].CallbackOn & CallbackType.Start) == CallbackType.Start)
-                    HostedSystems[i].Start();
+                this[i].CallbackDistributor = this;
+                if ((this[i].CallbackOn & CallbackType.Start) == CallbackType.Start)
+                    this[i].Start();
             }
         }
         public override void Update()
         {
-            for (int i = 0; i < HostedSystems.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & CallbackType.Update) == CallbackType.Update)
-                    HostedSystems[i].Update();
+                if ((this[i].CallbackOn & CallbackType.Update) == CallbackType.Update)
+                    this[i].Update();
             }
         }
         public override void FixedUpdate()
         {
-            for (int i = 0; i < HostedSystems.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & CallbackType.FixedUpdate) == CallbackType.FixedUpdate)
-                    HostedSystems[i].FixedUpdate();
+                if ((this[i].CallbackOn & CallbackType.FixedUpdate) == CallbackType.FixedUpdate)
+                    this[i].FixedUpdate();
             }
         }
         public override void LateUpdate()
         {
-            for (int i = 0; i < HostedSystems.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & CallbackType.LateUpdate) == CallbackType.LateUpdate)
-                    HostedSystems[i].LateUpdate();
+                if ((this[i].CallbackOn & CallbackType.LateUpdate) == CallbackType.LateUpdate)
+                    this[i].LateUpdate();
             }
         }
         public override void OnGUI()
         {
-            for (int i = 0; i < HostedSystems.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & CallbackType.OnGUI) == CallbackType.OnGUI)
-                    HostedSystems[i].OnGUI();
+                if ((this[i].CallbackOn & CallbackType.OnGUI) == CallbackType.OnGUI)
+                    this[i].OnGUI();
             }
         }
         public override void OnAwake()
         {
-            for (int i = 0; i < HostedSystems.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & CallbackType.OnAwake) == CallbackType.OnAwake)
-                    HostedSystems[i].OnAwake();
+                if ((this[i].CallbackOn & CallbackType.OnAwake) == CallbackType.OnAwake)
+                    this[i].OnAwake();
             }
         }
         public override void OnQuit()
         {
-            for (int i = 0; i < HostedSystems.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                if ((HostedSystems[i].CallbackOn & CallbackType.OnQuit) == CallbackType.OnQuit)
-                    HostedSystems[i].OnQuit();
+                if ((this[i].CallbackOn & CallbackType.OnQuit) == CallbackType.OnQuit)
+                    this[i].OnQuit();
             }
         }
         public void OnQuitRequestReceived()

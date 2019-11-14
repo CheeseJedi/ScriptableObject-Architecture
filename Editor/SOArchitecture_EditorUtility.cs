@@ -10,20 +10,29 @@ namespace ScriptableObjectArchitecture.Editor
 {
     public static class SOArchitecture_EditorUtility
     {
-        static SOArchitecture_EditorUtility()
-        {
-            CreateDebugStyle();
-        }
-        
+        //static SOArchitecture_EditorUtility()
+        //{
+        //    //CreateDebugStyle();
+        //}
+
         /// <summary>
         /// A debug <see cref="GUIStyle"/> that allows for identification of EditorGUI Rect issues.
         /// </summary>
-        public static GUIStyle DebugStyle { get; private set; }
+        public static GUIStyle DebugStyle
+        {
+            get
+            {
+                if (_debugStyle == null) CreateDebugStyle();
+                return _debugStyle;
+            }
+            private set => _debugStyle = value;
+        }
         private const float DebugStyleBackgroundAlpha = 0.33f;
 
         private static PropertyDrawerGraph _propertyDrawerGraph;
         private static BindingFlags _fieldBindingsFlag = BindingFlags.Instance | BindingFlags.NonPublic;
-        
+        private static GUIStyle _debugStyle = null;
+
         private class AssemblyDefinitionSurrogate
         {
             public string name = "";
@@ -44,7 +53,7 @@ namespace ScriptableObjectArchitecture.Editor
 
             foreach (string file in Directory.GetFiles(libraryPath))
             {
-                if(assemblyNamesToCheck.Contains(Path.GetFileNameWithoutExtension(file)) && Path.GetExtension(file) == ".dll")
+                if (assemblyNamesToCheck.Contains(Path.GetFileNameWithoutExtension(file)) && Path.GetExtension(file) == ".dll")
                 {
                     Assembly assembly = Assembly.LoadFrom(file);
                     _propertyDrawerGraph.CreateGraph(assembly);
@@ -62,7 +71,7 @@ namespace ScriptableObjectArchitecture.Editor
                 if (path.StartsWith("Assets/"))
                 {
                     string fullPath = Application.dataPath + path.Remove(0, path.IndexOf('/'));
-                    
+
                     targetList.Add(GetNameValueFromAssemblyDefinition(fullPath));
                 }
             }
@@ -195,5 +204,27 @@ namespace ScriptableObjectArchitecture.Editor
                 }
             }
         }
+
+
+
+        public const float STD_LINE_HEIGHT = 16;
+        public const float STD_LINE_SPACER_HEIGHT = 2;
+
+
+        public const string NO_PROPERTY_WARNING_FORMAT = "No PropertyDrawer for type [{0}]";
+
+
+        // Common property names.
+        public const string SCRIPT_PROPERTY_NAME = "m_Script";
+        public const string DESCRIPTION_PROPERTY_NAME = "DeveloperDescription";
+        public const string PERSISTENCE_ID_PROPERTY_NAME = "_persistenceId";
+        // Collection property names/labels.
+        public const string COLLECTION_LIST_PROPERTY_NAME = "_list";
+        public const string SELECTED_ITEM_INDEX_PROPERTY_NAME = "_selectedItemIndex";
+        public const string COLLECTION_TITLE_FORMAT = "List ({0})";
+        public const string COLLECTION_SORTED_LABEL = "INFO: This collection is automatically re-sorted";
+
+
+
     }
 }

@@ -9,6 +9,7 @@ namespace ScriptableObjectArchitecture
     public class IntVariable : BaseVariable<int>
     {
         public static IntVariable CreateAsset() => EditorAssistantUtility.CreateAsset<IntVariable>();
+        public override bool IsPersistable => true;
         public override bool Clampable { get { return true; } }
         protected override int ClampValue(int value)
         {
