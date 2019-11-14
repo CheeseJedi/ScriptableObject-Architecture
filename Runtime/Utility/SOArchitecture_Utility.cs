@@ -17,7 +17,7 @@
 
         public const string ADVANCED_GAME_EVENT = GAME_EVENTS_SUBMENU + "Advanced/";
         public const string ADVANCED_VARIABLE_SUBMENU = VARIABLE_SUBMENU + "Advanced/";
-        public const string ADVANCED_VARIABLE_COLLECTION = COLLECTION_SUBMENU + "Advanced/";
+        public const string ADVANCED_COLLECTION_SUBMENU = COLLECTION_SUBMENU + "Advanced/";
 
         // Add Component Menus
         public const string ADD_COMPONENT_ROOT_MENU = "SO Architecture/";
