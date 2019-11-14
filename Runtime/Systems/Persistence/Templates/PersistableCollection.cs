@@ -13,17 +13,19 @@ namespace ScriptableObjectArchitecture
         where T : SOArch_BaseScriptableObject
     {
         public int SelectedItemIndex = -1;
+        // TODO: A better way than the following needs to be found - it may be possible to put 
+        // something similar on the templates themselves. Investigation required.
         [XmlArray,
             XmlArrayItem(Type = typeof(PersistableFloatVariableCollection)),
             XmlArrayItem(Type = typeof(PersistableIntVariableCollection)),
             XmlArrayItem(Type = typeof(PersistableStringVariableCollection)),
             XmlArrayItem(Type = typeof(PersistableBoolVariableCollection)),
-            //XmlArrayItem(Type = typeof(PersistableCharacterCollection)),
+            XmlArrayItem(Type = typeof(PersistableCharacterCollection)),
             XmlArrayItem(Type = typeof(PersistableVariable<float>)),
             XmlArrayItem(Type = typeof(PersistableVariable<int>)),
             XmlArrayItem(Type = typeof(PersistableVariable<string>)),
-            XmlArrayItem(Type = typeof(PersistableVariable<bool>)),    ]
-            //XmlArrayItem(Type = typeof(PersistableCharacter))]
+            XmlArrayItem(Type = typeof(PersistableVariable<bool>)),
+            XmlArrayItem(Type = typeof(PersistableCharacter))]
         public List<Persistable> CollectionItems;
         protected override void PopulateTemplateInternal()
         {

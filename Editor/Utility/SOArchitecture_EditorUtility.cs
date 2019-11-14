@@ -206,13 +206,10 @@ namespace ScriptableObjectArchitecture.Editor
         }
 
 
-
         public const float STD_LINE_HEIGHT = 16;
         public const float STD_LINE_SPACER_HEIGHT = 2;
 
-
         public const string NO_PROPERTY_WARNING_FORMAT = "No PropertyDrawer for type [{0}]";
-
 
         // Common property names.
         public const string SCRIPT_PROPERTY_NAME = "m_Script";
@@ -223,8 +220,6 @@ namespace ScriptableObjectArchitecture.Editor
         public const string SELECTED_ITEM_INDEX_PROPERTY_NAME = "_selectedItemIndex";
         public const string COLLECTION_TITLE_FORMAT = "List ({0})";
         public const string COLLECTION_SORTED_LABEL = "INFO: This collection is automatically re-sorted";
-
-
 
     }
 }

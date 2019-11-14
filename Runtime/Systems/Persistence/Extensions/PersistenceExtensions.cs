@@ -124,5 +124,32 @@ namespace ScriptableObjectArchitecture
             template.PopulateObject(variable);
         }
 
+        /// ** CHARACTERS **
+
+        // CharacterCollection
+        public static bool IsPersistable(this CharacterCollection obj) => true;
+        public static PersistableCharacterCollection ToPersistenceTemplate(this CharacterCollection collection)
+        {
+            PersistableCharacterCollection template = new PersistableCharacterCollection();
+            template.PopulateTemplate(collection);
+            return template;
+        }
+        public static void FromPersistenceTemplate(this CharacterCollection collection, PersistableCharacterCollection template)
+        {
+            template.PopulateObject(collection);
+        }
+
+        // Character
+        public static bool IsPersistable(this Character obj) => true;
+        public static PersistableCharacter ToPersistenceTemplate(this Character character)
+        {
+            PersistableCharacter template = new PersistableCharacter();
+            template.PopulateTemplate(character);
+            return template;
+        }
+        public static void FromPersistenceTemplate(this Character character, PersistableCharacter template)
+        {
+            template.PopulateObject(character);
+        }
     }
 }
