@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using UnityEditorInternal;
-using System.Collections.Generic;
 
 namespace ScriptableObjectArchitecture.Editor
 {

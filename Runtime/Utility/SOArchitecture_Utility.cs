@@ -9,6 +9,7 @@
 
         public const string VARIABLE_SUBMENU = "Variables/";
         public const string COLLECTION_SUBMENU = "Collections/";
+        public const string VARIABLE_COLLECTION_SUBMENU = COLLECTION_SUBMENU + VARIABLE_SUBMENU;
         public const string GAME_EVENTS_SUBMENU = "Game Events/";
         public const string SYSTEMS_SUBMENU = "Systems/";
 

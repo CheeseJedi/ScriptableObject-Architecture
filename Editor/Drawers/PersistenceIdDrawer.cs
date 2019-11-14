@@ -6,8 +6,6 @@ namespace ScriptableObjectArchitecture.Editor
     [CustomPropertyDrawer(typeof(PersistenceId))]
     public class PersistenceIdDrawer : PropertyDrawer
     {
-        private const float STD_LINE_HEIGHT = 16;
-        private const float STD_LINE_SPACER_HEIGHT = 2;
         private const float ENABLE_DISABLE_BUTTON_WIDTH = 50f;
         private readonly GUIContent enableButton_Content = new GUIContent("Enable");
         private readonly GUIContent newIdButton_Content = new GUIContent("New Id");
@@ -27,12 +25,12 @@ namespace ScriptableObjectArchitecture.Editor
             Rect foldOutPos = new Rect(position)
             {
                 width = EditorGUIUtility.labelWidth,
-                height = STD_LINE_HEIGHT
+                height = SOArchitecture_EditorUtility.STD_LINE_HEIGHT
             };
             Rect disableButtonPos = new Rect(position)
             {
                 width = ENABLE_DISABLE_BUTTON_WIDTH,
-                height = STD_LINE_HEIGHT,
+                height = SOArchitecture_EditorUtility.STD_LINE_HEIGHT,
                 x = position.width - ENABLE_DISABLE_BUTTON_WIDTH + 12
             };
             Rect newIdButtonPos = new Rect(disableButtonPos)
@@ -81,8 +79,9 @@ namespace ScriptableObjectArchitecture.Editor
                 SerializedProperty _stringValueProp = property.FindPropertyRelative("_stringValue");
                 Rect uniqueIdPos = new Rect(position)
                 {
-                    height = STD_LINE_HEIGHT,
-                    y = position.y + STD_LINE_HEIGHT + STD_LINE_SPACER_HEIGHT
+                    height = SOArchitecture_EditorUtility.STD_LINE_HEIGHT,
+                    y = position.y + SOArchitecture_EditorUtility.STD_LINE_HEIGHT + 
+                        SOArchitecture_EditorUtility.STD_LINE_SPACER_HEIGHT
                 };
                 EditorGUI.BeginDisabledGroup(true);
                 EditorGUI.PropertyField(uniqueIdPos, _stringValueProp, uniqueIdLabel_Content, true);
@@ -99,7 +98,7 @@ namespace ScriptableObjectArchitecture.Editor
             if (!obj.IsPersistable) return 0f;
             if (property.isExpanded)
             {
-                return STD_LINE_HEIGHT * 2 + STD_LINE_SPACER_HEIGHT;
+                return SOArchitecture_EditorUtility.STD_LINE_HEIGHT * 2 + SOArchitecture_EditorUtility.STD_LINE_SPACER_HEIGHT;
             }
             return base.GetPropertyHeight(property, label);
         }
