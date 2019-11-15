@@ -5,9 +5,6 @@ using UnityEngine;
 
 namespace ScriptableObjectArchitecture
 {
-    //[System.Serializable]
-    //public class PersistableCollection : PersistableCollection<SOArch_BaseScriptableObject> { }
-
     [System.Serializable]
     public class PersistableCollection<T> : PersistableSOAScriptableObject<Collection<T>>
         where T : SOArch_BaseScriptableObject
@@ -103,6 +100,8 @@ namespace ScriptableObjectArchitecture
                     MethodInfo FromPersistenceTemplateMethod = typeof(PersistenceExtensions).GetMethod
                         ("FromPersistenceTemplate", BindingFlags.Public | BindingFlags.Static, null, new System.Type[] { objType, templateType }, null);
 
+                    // TODO: Add check for method directly on the class?
+
                     if (FromPersistenceTemplateMethod != null)
                     {
 
@@ -111,6 +110,14 @@ namespace ScriptableObjectArchitecture
                     }
                     else Debug.LogWarning($"{_typedObject.name}(PersistableCollection).PopulateTemplate(Ext): " +
                         $"FromPersistenceTemplate info was null. {_typedObject.Type}");
+                }
+                else
+                {
+                    // No match - if the type can have an instance created, create one.
+                    // This is primarily for characters and other transitive classes derived from ScriptableObject
+                    // as the persistence templates for variables currently only restore the primary value.
+
+                    // TODO!
                 }
             }
         }
