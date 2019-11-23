@@ -46,5 +46,10 @@ namespace ScriptableObjectArchitecture
         #region IDisplayable implementation
         public Sprite Icon => null; // No implementation for Icon currently.
         #endregion
+
+        private void OnValidate()
+        {
+            name = characterName;
+        }
     }
 }

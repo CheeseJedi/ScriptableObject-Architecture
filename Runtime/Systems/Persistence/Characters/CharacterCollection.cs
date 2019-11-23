@@ -14,9 +14,27 @@ namespace ScriptableObjectArchitecture
         public Character CreateCharacter()
         {
             Character newCharacter = CreateInstance<Character>();
+            newCharacter.name = newCharacter.Name;
+            newCharacter.PersistenceId.EnablePersistence();
             Add(newCharacter);
+            if (SelectedItemIndex == -1)
+            {
+                SelectedItemIndex = 0;
+            }
             return newCharacter;
         }
         public void RemoveCharacter(int index) => RemoveAt(index);
+
+        protected void RemoveMissingCharacters()
+        {
+            for (int i = Count - 1; i > -1; i--)
+            {
+                if (this[i] == null) RemoveAt(i);
+            }
+        }
+
+        protected void OnEnable() => RemoveMissingCharacters();
+        protected void OnDisable() => RemoveMissingCharacters();
+
     }
 }

@@ -74,8 +74,7 @@ namespace ScriptableObjectArchitecture
             }
             if (!PerformIdentityCheck()) return;
             if (!PerformTypeCheck()) return;
-            _typedObject.SelectedItemIndex = _typedObject.IsSelectedItemTracked ? SelectedItemIndex : -1;
-            if (RestoreMissingChildObjects) Debug.Log($"{_typedObject.name}(PersistableCollection): RestoreMissingChildObjects=true");
+            //if (RestoreMissingChildObjects) Debug.Log($"{_typedObject.name}(PersistableCollection): RestoreMissingChildObjects=true");
             // Process sub items.
             for (int i = 0; i < CollectionItems.Count; i++)
             {
@@ -89,8 +88,7 @@ namespace ScriptableObjectArchitecture
                     result.name = CollectionItems[i].Name;
                     result.PersistenceId.EnablePersistence();
                     _typedObject.Add(result);
-                    Debug.Log($"{_typedObject.name}(PersistableCollection): Restored missing object '{result.name}'");
-                    //result.PersistenceId.GuidValue = new System.Guid(CollectionItems[i].UniqueId);
+                    //Debug.Log($"{_typedObject.name}(PersistableCollection): Restored missing object '{result.name}'");
                 }
 
                 if (result != null)
@@ -115,8 +113,9 @@ namespace ScriptableObjectArchitecture
                         $"Unable to find matching child object and unable to create missing item.");
                 }
             }
+            _typedObject.SelectedItemIndex = _typedObject.IsSelectedItemTracked ? SelectedItemIndex : -1;
         }
-        
+
         protected virtual bool PerformIdentityCheck()
         {
             bool matchedId = UniqueId == _typedObject.PersistenceId;
