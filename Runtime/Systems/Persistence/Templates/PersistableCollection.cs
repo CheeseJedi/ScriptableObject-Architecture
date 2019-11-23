@@ -49,11 +49,11 @@ namespace ScriptableObjectArchitecture
                 }
                 System.Type objType = _typedObject[i].GetType();
                 //Debug.Log(objType);
-                MethodInfo ToJTokenMethod = typeof(PersistenceExtensions).GetMethod
+                MethodInfo ToPersistenceTemplateMethod = typeof(PersistenceExtensions).GetMethod
                     ("ToPersistenceTemplate", BindingFlags.Public | BindingFlags.Static, null, new System.Type[] { objType }, null);
-                if (ToJTokenMethod != null)
+                if (ToPersistenceTemplateMethod != null)
                 {
-                    Persistable template = (Persistable)ToJTokenMethod.Invoke(null, new object[] { _typedObject[i] });
+                    Persistable template = (Persistable)ToPersistenceTemplateMethod.Invoke(null, new object[] { _typedObject[i] });
                     if (template == null)
                     {
                         Debug.LogError("Template was null");
@@ -67,59 +67,71 @@ namespace ScriptableObjectArchitecture
         }
         protected override void PopulateObjectInternal()
         {
-            // Sanity checks.
             if (_typedObject == null)
             {
                 Debug.LogError($"{(nameof(PersistableCollection<T>))}.PopulateObjectInternal: _typedObject is null.");
                 return;
             }
-            if (Name != _typedObject.name)
-            {
-                Debug.LogError($"{(nameof(PersistableCollection<T>))}.PopulateObjectInternal: Error - Name mismatch.");
-                return;
-            }
-            if (UniqueId != _typedObject.PersistenceId)
-            {
-                Debug.LogError($"{(nameof(PersistableCollection<T>))}.PopulateObjectInternal: Error - UniqueId mismatch.");
-                return;
-            }
+            if (!PerformIdentityCheck()) return;
             if (!PerformTypeCheck()) return;
             _typedObject.SelectedItemIndex = _typedObject.IsSelectedItemTracked ? SelectedItemIndex : -1;
+            if (RestoreMissingChildObjects) Debug.Log($"{_typedObject.name}(PersistableCollection): RestoreMissingChildObjects=true");
             // Process sub items.
             for (int i = 0; i < CollectionItems.Count; i++)
             {
                 // Attempt to find a matching child of the target object.
                 SOArch_BaseScriptableObject result = _typedObject.Find(c => c.name == CollectionItems[i].Name);
+                System.Type templateType = System.Type.GetType(CollectionItems[i].TemplateType);
+                
+                if (result == null && RestoreMissingChildObjects)
+                {
+                    result = ScriptableObject.CreateInstance<T>();
+                    result.name = CollectionItems[i].Name;
+                    result.PersistenceId.EnablePersistence();
+                    _typedObject.Add(result);
+                    Debug.Log($"{_typedObject.name}(PersistableCollection): Restored missing object '{result.name}'");
+                    //result.PersistenceId.GuidValue = new System.Guid(CollectionItems[i].UniqueId);
+                }
+
                 if (result != null)
                 {
                     System.Type objType = result.GetType();
-                    Debug.Log($"CollectionItems[{i}].Name = {CollectionItems[i].Name} DetectedType = {objType}");
-
-                    System.Type templateType = System.Type.GetType(CollectionItems[i].TemplateType);
+                    //Debug.Log($"CollectionItems[{i}].Name = {CollectionItems[i].Name} DetectedType = {objType}");
 
                     MethodInfo FromPersistenceTemplateMethod = typeof(PersistenceExtensions).GetMethod
                         ("FromPersistenceTemplate", BindingFlags.Public | BindingFlags.Static, null, new System.Type[] { objType, templateType }, null);
 
                     // TODO: Add check for method directly on the class?
-
                     if (FromPersistenceTemplateMethod != null)
                     {
-
                         FromPersistenceTemplateMethod.Invoke(null, new object[] { result, CollectionItems[i] }); // working for types that don't need instantiating
-
                     }
-                    else Debug.LogWarning($"{_typedObject.name}(PersistableCollection).PopulateTemplate(Ext): " +
+                    else Debug.LogWarning($"{_typedObject.name}(PersistableCollection).PopulateObjectInternal: " +
                         $"FromPersistenceTemplate info was null. {_typedObject.Type}");
                 }
                 else
                 {
-                    // No match - if the type can have an instance created, create one.
-                    // This is primarily for characters and other transitive classes derived from ScriptableObject
-                    // as the persistence templates for variables currently only restore the primary value.
-
-                    // TODO!
+                    Debug.LogWarning($"{_typedObject.name}(PersistableCollection).PopulateObjectInternal: " +
+                        $"Unable to find matching child object and unable to create missing item.");
                 }
             }
+        }
+        
+        protected virtual bool PerformIdentityCheck()
+        {
+            bool matchedId = UniqueId == _typedObject.PersistenceId;
+            bool matchedName = Name == _typedObject.name;
+            // A match on UniqueId is preferred
+            if (!matchedId)
+            {
+                Debug.LogWarning($"{(nameof(PersistableCollection<T>))}.PopulateObjectInternal: UniqueId mismatch, attempting match using Name.");
+                if (!matchedName)
+                {
+                    Debug.LogError($"{(nameof(PersistableCollection<T>))}.PopulateObjectInternal: Error - Name mismatch.");
+                    return false;
+                }
+            }
+            return true;
         }
         protected virtual bool PerformTypeCheck()
         {

@@ -14,7 +14,7 @@ namespace ScriptableObjectArchitecture
             return arrayRepresentation;
         }
 
-        public static void FromFloatArray(this Color color, float[] arrayRepresentation)
+        public static void FromFloatArray(this ref Color color, float[] arrayRepresentation)
         {
             color.r = arrayRepresentation[0];
             color.g = arrayRepresentation[1];

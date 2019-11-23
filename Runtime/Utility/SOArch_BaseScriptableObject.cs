@@ -16,7 +16,7 @@ namespace ScriptableObjectArchitecture
         [SerializeField, Tooltip("Persistence settings.")]
         protected PersistenceId _persistenceId = default;
         /// <summary>
-        /// Determines whether the object has a persistence template and can be persisted.
+        /// Used to determine whether the object has a persistence template and can be persisted.
         /// Override this if the derived class has a suitable persistence template (model) class
         /// and, if necessary, extension methods to map between the two.
         /// </summary>

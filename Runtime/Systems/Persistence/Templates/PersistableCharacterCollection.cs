@@ -4,11 +4,7 @@ namespace ScriptableObjectArchitecture
 {
     public class PersistableCharacterCollection : PersistableCollection<Character>
     {
-        protected override void PopulateTemplateInternal()
-        {
-            base.PopulateTemplateInternal();
-            TemplateType = typeof(PersistableCharacterCollection).AssemblyQualifiedName;
-        }
+        public override bool RestoreMissingChildObjects => true;
         protected override bool PerformTypeCheck()
         {
             if (TemplateType != typeof(PersistableCharacterCollection).AssemblyQualifiedName)
@@ -18,6 +14,11 @@ namespace ScriptableObjectArchitecture
                 return false;
             }
             else return true;
+        }
+        protected override void PopulateTemplateInternal()
+        {
+            base.PopulateTemplateInternal();
+            TemplateType = typeof(PersistableCharacterCollection).AssemblyQualifiedName;
         }
     }
 }

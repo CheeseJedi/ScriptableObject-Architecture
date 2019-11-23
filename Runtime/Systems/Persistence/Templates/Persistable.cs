@@ -13,6 +13,7 @@ namespace ScriptableObjectArchitecture
         #endregion
         [System.NonSerialized]
         protected object _untypedObject; // The object to be persisted.
+        public virtual bool RestoreMissingChildObjects => false;
         public virtual void PopulateTemplate(object source)
         {
             Debug.LogWarning(nameof(Persistable) + ".PopulateTemplate(object): Probably shouldn't be here!");
