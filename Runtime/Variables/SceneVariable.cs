@@ -1,4 +1,3 @@
-==== BASE ====
 using System;
 using UnityEngine;
 
@@ -126,4 +125,3 @@ namespace ScriptableObjectArchitecture
         #endregion
     }
 }
-==== BASE ====

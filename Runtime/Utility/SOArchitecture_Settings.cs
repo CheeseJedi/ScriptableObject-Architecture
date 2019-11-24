@@ -1,4 +1,3 @@
-==== BASE ====
 ﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -81,7 +80,6 @@ namespace ScriptableObjectArchitecture
         private const string AssetDatabaseSearchString = "t:SOArchitecture_Settings";
         private const string DefaultNewSettingsLocation = "Assets\\";
         private const string DefaultNewSettingsName = "SOArchitecture_Settings.asset";
-#endregion
 
         public string CodeGenerationTargetDirectory
         {
@@ -110,5 +108,4 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         private int _defualtCreateAssetMenuOrder = 120;
     }
-==== BASE ====
 }

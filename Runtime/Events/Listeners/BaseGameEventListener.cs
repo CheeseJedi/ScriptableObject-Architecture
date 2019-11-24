@@ -1,4 +1,3 @@
-==== BASE ====
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -297,5 +296,4 @@ where TResponse : UnityEvent<TType>
         }
 #endif
     } 
-==== BASE ====
 }

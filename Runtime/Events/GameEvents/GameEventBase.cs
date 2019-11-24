@@ -1,4 +1,3 @@
-==== BASE ====
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
@@ -112,5 +111,4 @@ namespace ScriptableObjectArchitecture
             _actions.RemoveRange(0, _listeners.Count);
         }
     } 
-==== BASE ====
 }

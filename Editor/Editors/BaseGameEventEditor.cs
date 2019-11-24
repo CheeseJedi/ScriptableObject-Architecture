@@ -1,4 +1,3 @@
-==== BASE ====
 ﻿using UnityEditor;
 
 namespace ScriptableObjectArchitecture.Editor
@@ -29,5 +28,4 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUILayout.PropertyField(DeveloperDescription);
         }
     }
-==== BASE ====
 }
