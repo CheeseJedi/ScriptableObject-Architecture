@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -29,14 +30,13 @@ namespace ScriptableObjectArchitecture
         [Tooltip("The Serializer Asset"), EditorAssistant(typeof(AbstractSerializer),
             missingObjectWarning: true, displayInspector: true)]
         public AbstractSerializer SerializerAsset = default;
-
+        [Tooltip("Initializer plug-in assets - these will be called in sequence when a new save file is created.")]
+        public List<AbstractInitializer> initializerPlugins = new List<AbstractInitializer>();
         [Header("File System Path")]
         [Tooltip("The 'base' of the file name (not including the file extension).")]
         public string fileNameBase = "settings";
         [Tooltip("Advanced File System Settings.")]
-        public PersistenceAdvancedFileSystemSettings advancedSettings
-            = new PersistenceAdvancedFileSystemSettings();
-
+        public PersistenceAdvancedFileSystemSettings advancedSettings = new PersistenceAdvancedFileSystemSettings();
         public string LastMessage { get; private set; } = string.Empty;
         private string _cachedPath = string.Empty;
         public override void Start() => Load();
@@ -48,15 +48,22 @@ namespace ScriptableObjectArchitecture
             LastMessage = string.Empty;
             if (!File.Exists(cachedPath))
             {
-                Debug.Log($"{DateTime.UtcNow}: Creating new settings file {cachedPath}.{Environment.NewLine}");
-                Save();
+                LastMessage = $"{DateTime.UtcNow}: Creating new settings file {cachedPath}";
+                Save(createNew: true);
             }
             SerializerAsset.PersistenceLoad(this);
             LastMessage += $"{DateTime.UtcNow}: Load complete.";
         }
         [ContextMenu("Save")]
-        public void Save()
+        public void Save(bool createNew = false)
         {
+            if (createNew)
+            {
+                for (int i = 0; i < initializerPlugins.Count; i++)
+                {
+                    initializerPlugins[i].Initialize();
+                }
+            }
             SerializerAsset.PersistenceSave(this);
             LastMessage = $"{DateTime.UtcNow}: Save complete.";
         }
@@ -64,10 +71,6 @@ namespace ScriptableObjectArchitecture
         {
             _cachedPath = GeneratePath();
         }
-        //private void OnValidate()
-        //{
-        //    //_cachedPath = GeneratePath();
-        //}
         public string GetCachedPath(bool createMissingDirectories)
         {
             if (string.IsNullOrEmpty(_cachedPath))
