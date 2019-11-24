@@ -1,3 +1,4 @@
+==== BASE ====
 ﻿using UnityEditor;
 
 namespace ScriptableObjectArchitecture.Editor
@@ -20,7 +21,7 @@ namespace ScriptableObjectArchitecture.Editor
         {
             DrawRaiseButton();
 
-            if (!SOArchitecture_Settings.Instance.EnableDebug)
+            if (!SOArchitecturePreferences.IsDebugEnabled)
                 EditorGUILayout.HelpBox("Debug mode disabled\nStack traces will not be filed on raise!", MessageType.Warning);
 
             _stackTrace.Draw();
@@ -28,4 +29,5 @@ namespace ScriptableObjectArchitecture.Editor
             EditorGUILayout.PropertyField(DeveloperDescription);
         }
     }
+==== BASE ====
 }

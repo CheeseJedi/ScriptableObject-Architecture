@@ -1,3 +1,4 @@
+==== BASE ====
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -250,7 +251,7 @@ where TResponse : UnityEvent<TType>
         }
         private bool EnableGizmoDebuggin()
         {
-            if (!SOArchitecture_Settings.Instance.DrawEventGizmos)
+            if (!SOArchitecturePreferences.AreGizmosEnabled)
                 return false;
 
             return _enableGizmoDebugging;
@@ -296,4 +297,5 @@ where TResponse : UnityEvent<TType>
         }
 #endif
     } 
+==== BASE ====
 }

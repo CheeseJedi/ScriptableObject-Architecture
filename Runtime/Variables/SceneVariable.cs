@@ -1,3 +1,4 @@
+==== BASE ====
 using System;
 using UnityEngine;
 
@@ -13,7 +14,6 @@ namespace ScriptableObjectArchitecture
         order = 120)]
     public sealed class SceneVariable : BaseVariable<SceneInfo>
     {
-        public static SceneVariable CreateAsset() => EditorAssistantUtility.CreateAsset<SceneVariable>();
         /// <summary>
         /// Returns the <see cref="SceneInfo"/> of this instance.
         /// </summary>
@@ -79,15 +79,17 @@ namespace ScriptableObjectArchitecture
         #endif
 
         #pragma warning disable 0649
+
         [SerializeField]
         private string _sceneName;
-        #pragma warning restore 0649
 
         [SerializeField]
         private int _sceneIndex;
 
         [SerializeField]
         private bool _isSceneEnabled;
+
+        #pragma warning restore 0649
 
         public SceneInfo()
         {
@@ -124,3 +126,4 @@ namespace ScriptableObjectArchitecture
         #endregion
     }
 }
+==== BASE ====
