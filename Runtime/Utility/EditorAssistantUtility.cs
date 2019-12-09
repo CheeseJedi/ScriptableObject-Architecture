@@ -17,7 +17,9 @@ namespace ScriptableObjectArchitecture
             /// Based on the solution at http://wiki.unity3d.com/index.php/CreateScriptableObjectAsset2
             /// Modified to return a reference to the new asset.
             T asset = ScriptableObject.CreateInstance<T>();
+#if UNITY_EDITOR
             ProjectWindowUtil.CreateAsset(asset, "New " + typeof(T).Name + ".asset");
+#endif
             return asset;
         }
     }
