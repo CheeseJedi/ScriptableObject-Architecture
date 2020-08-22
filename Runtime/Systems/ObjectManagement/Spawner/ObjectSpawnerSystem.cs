@@ -11,7 +11,7 @@ namespace ScriptableObjectArchitecture
     {
         #region SOA Integration
         public static ObjectSpawnerSystem CreateAsset() => EditorAssistantUtility.CreateAsset<ObjectSpawnerSystem>();
-        public override CallbackType CallbackOn => CallbackType.OnAwake | CallbackType.Update | CallbackType.OnGUI;
+        public override CallbackType CallbackOn => CallbackType.OnAwake | CallbackType.Start | CallbackType.Update | CallbackType.OnGUI;
         private const string DEFAULT_DEVELOPER_DESCRIPTION = "The ObjectSpawnerSystem spawns an object specified in "
             + "a SpawnJob via a SpawnerEndpointComponent attached to a GameObject in a scene.";
         private void Awake()
@@ -34,8 +34,16 @@ namespace ScriptableObjectArchitecture
 
         public override void OnAwake()
         {
-            //debugStyle = new GUIStyle();
-            //debugStyle.normal.textColor = Color.magenta;
+            debugStyle = new GUIStyle();
+            debugStyle.normal.textColor = Color.magenta;
+        }
+
+        public override void Start()
+        {
+            _isCoroutineRunning = false;
+            _pendingSpawnJobs.Clear();
+            _allSpawnJobs.Clear();
+            _nextJobId = 0;
         }
 
         public override void Update()
@@ -78,9 +86,12 @@ namespace ScriptableObjectArchitecture
         {
             _isCoroutineRunning = true;
             yield return null;
+            Debug.Log($"{name}.ProcessQueue: Coroutine started.");
 
             while (HasPendingJobs)
             {
+                Debug.Log($"{name}.ProcessQueue: has pending jobs.");
+
                 SpawnJob currentJob = _pendingSpawnJobs.Dequeue();
                 if (currentJob == null)
                 {
